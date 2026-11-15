@@ -32,7 +32,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-img { max-width: 100%; display: block; }
+img, video, canvas { max-width: 100%; display: block; }
+
+/* ممنوع أي حاجة توسّع الصفحة أكتر من عرض الشاشة (clip مش hidden علشان الهيدر الثابت يفضل شغال) */
+html, body { overflow-x: clip; }
+.cards > *, .products > *, .steps > *, .why > *, .work__feats > *, .shots > *, .demos > * { min-width: 0; }
 a { color: inherit; }
 
 [lang="en"] { font-family: var(--font-en); }
@@ -112,8 +116,9 @@ html[lang="en"] .hero__title { letter-spacing: -1.5px; line-height: 1.1; }
 .hero__rain {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none;
 }
 .hero::after { /* تعتيم من الأطراف علشان الكلام يبان */
   content: "";
