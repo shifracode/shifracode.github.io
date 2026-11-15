@@ -36,7 +36,7 @@ img, video, canvas { max-width: 100%; display: block; }
 
 /* ممنوع أي حاجة توسّع الصفحة أكتر من عرض الشاشة (clip مش hidden علشان الهيدر الثابت يفضل شغال) */
 html, body { overflow-x: clip; }
-.cards > *, .products > *, .steps > *, .why > *, .work__feats > *, .shots > *, .demos > * { min-width: 0; }
+.cards > *, .products > *, .steps > *, .why > *, .work__feats > *, .shots > *, .demos > *, .demo-cards > * { min-width: 0; }
 a { color: inherit; }
 
 [lang="en"] { font-family: var(--font-en); }
@@ -296,6 +296,23 @@ html[lang="en"] .hero__title { letter-spacing: -1.5px; line-height: 1.1; }
 .work__stack { font-size: 14px; margin: 0; }
 .work__stack span:first-child { color: var(--muted); }
 @media (prefers-reduced-motion: reduce) { .shot img { transition: none; } }
+
+/* ===== العيّنات الحية ===== */
+.demo-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.demo-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; min-width: 0; transition: border-color .2s ease; }
+.demo-card:hover { border-color: rgba(198, 255, 61, .45); }
+.demo-card__shot { display: block; aspect-ratio: 16 / 9; overflow: hidden; border-bottom: 1px solid var(--line); background: var(--bg); }
+.demo-card__shot img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform .3s ease; }
+.demo-card:hover .demo-card__shot img { transform: scale(1.03); }
+.demo-card__body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.demo-card__client { color: var(--muted); font-size: 13px; }
+.demo-card h3 { margin: 0; font-size: 19px; }
+.demo-card p { margin: 0 0 8px; color: var(--muted); font-size: 15px; }
+.demo-card__link { margin-top: auto; align-self: flex-start; color: var(--lime); font-weight: 700; text-decoration: none; }
+.demo-card__link:hover { text-decoration: underline; }
+.demo-card__link:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; border-radius: 4px; }
+@media (max-width: 760px) { .demo-cards { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .demo-card__shot img { transition: none; } }
 
 /* ===== الموبايل ===== */
 @media (max-width: 760px) {

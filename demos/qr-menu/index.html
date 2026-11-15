@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>مطعم ريحانة | قائمة الطعام (عرض تجريبي)</title>
+  <meta name="description" content="عرض تجريبي لقائمة طعام رقمية (QR) من تصميم ShifraCode.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fbf6ef; --card: #ffffff; --ink: #2b1d14; --muted: #7a6858; --line: #eadfd2;
+      --brand: #b5532f; --brand-dark: #8f3f22; --soft: #f6e7da; --ok: #2f7d4f;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Cairo", system-ui, sans-serif; line-height: 1.7; padding-bottom: 96px; }
+    button { font: inherit; cursor: pointer; }
+    .demo-bar { background: #0a0b0a; color: #e9ece6; font-size: 13px; text-align: center; padding: 8px 16px; }
+    .demo-bar a { color: #c6ff3d; }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+
+    .top { text-align: center; padding: 28px 0 16px; }
+    .logo { width: 72px; height: 72px; border-radius: 50%; background: var(--brand); color: #fff; display: grid; place-items: center; font-size: 34px; margin: 0 auto 8px; }
+    .top h1 { margin: 0; font-size: 28px; }
+    .top p { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+    .table-no { display: inline-flex; gap: 6px; align-items: center; margin-top: 10px; background: var(--soft); border-radius: 999px; padding: 4px 14px; font-size: 14px; }
+
+    .search { width: 100%; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; font: inherit; background: var(--card); margin: 8px 0 4px; }
+    .search:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+
+    .tabs { position: sticky; top: 0; z-index: 5; background: var(--bg); display: flex; gap: 8px; overflow-x: auto; padding: 12px 0; scrollbar-width: none; }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab { flex: 0 0 auto; border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 6px 16px; font-size: 14px; }
+    .tab[aria-current="true"] { background: var(--brand); border-color: var(--brand); color: #fff; }
+
+    .cat-title { font-size: 20px; margin: 24px 0 10px; scroll-margin-top: 70px; }
+    .items { display: grid; gap: 12px; }
+    .item { display: grid; grid-template-columns: 76px 1fr; gap: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 12px; }
+    .thumb { width: 76px; height: 76px; border-radius: 12px; background: var(--soft); display: grid; place-items: center; font-size: 38px; }
+    .item h3 { margin: 0; font-size: 16px; }
+    .item p { margin: 2px 0 8px; color: var(--muted); font-size: 13px; }
+    .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .price { font-weight: 700; }
+    .tag { font-size: 11px; color: var(--ok); background: #e5f3ea; border-radius: 999px; padding: 0 8px; margin-inline-start: 6px; }
+    .qty { display: inline-flex; align-items: center; gap: 4px; }
+    .qty button { width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--line); background: var(--card); font-size: 18px; line-height: 1; }
+    .qty .add { background: var(--brand); border-color: var(--brand); color: #fff; width: auto; padding: 0 14px; font-size: 14px; }
+    .qty span { min-width: 22px; text-align: center; font-weight: 700; }
+    .empty-search { text-align: center; color: var(--muted); padding: 32px 0; display: none; }
+
+    .cart-bar { position: fixed; inset: auto 0 0 0; z-index: 10; padding: 12px 16px; background: linear-gradient(transparent, var(--bg) 30%); display: none; }
+    .cart-bar button { width: 100%; max-width: 728px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; background: var(--brand); color: #fff; border: 0; border-radius: 14px; padding: 14px 18px; font-weight: 700; font-size: 16px; }
+    .cart-bar button:hover { background: var(--brand-dark); }
+
+    dialog { border: 0; border-radius: 20px 20px 0 0; padding: 0; width: 100%; max-width: 760px; margin: auto auto 0; max-height: 88vh; }
+    dialog::backdrop { background: rgba(43, 29, 20, .45); }
+    .sheet { padding: 20px 16px 24px; }
+    .sheet h2 { margin: 0 0 12px; font-size: 20px; }
+    .line { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px dashed var(--line); font-size: 15px; }
+    .total { display: flex; justify-content: space-between; font-weight: 800; font-size: 18px; margin: 12px 0; }
+    label { display: block; font-size: 14px; color: var(--muted); margin: 10px 0 4px; }
+    textarea, input[type="number"] { width: 100%; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; font: inherit; }
+    .actions { display: grid; gap: 8px; margin-top: 16px; }
+    .btn { border: 0; border-radius: 14px; padding: 14px; font-weight: 700; font-size: 16px; }
+    .btn--wa { background: #1fa855; color: #fff; }
+    .btn--ghost { background: var(--soft); color: var(--ink); }
+    .note { font-size: 12px; color: var(--muted); text-align: center; margin-top: 10px; }
+
+    footer { text-align: center; color: var(--muted); font-size: 13px; padding: 32px 16px; }
+    footer a { color: var(--brand); }
+  </style>
+</head>
+<body>
+  <div class="demo-bar">عرض تجريبي من <a href="https://shifracode.github.io/">ShifraCode</a> · المطعم والأسعار وهمية</div>
+
+  <div class="wrap">
+    <header class="top">
+      <div class="logo" aria-hidden="true">🌿</div>
+      <h1>مطعم ريحانة</h1>
+      <p>مأكولات شرقية · مفتوح يوميًا من 12 ظهرًا حتى 12 منتصف الليل</p>
+      <div class="table-no">طاولة رقم <b id="tableNo">7</b></div>
+    </header>
+
+    <input class="search" id="search" type="search" placeholder="ابحث عن طبق…" aria-label="ابحث في القائمة">
+    <nav class="tabs" id="tabs" aria-label="أقسام القائمة"></nav>
+    <main id="menu"></main>
+    <p class="empty-search" id="emptySearch">لا توجد أطباق بهذا الاسم.</p>
+  </div>
+
+  <div class="cart-bar" id="cartBar">
+    <button type="button" id="openCart"><span>عرض الطلب (<span id="cartCount">0</span>)</span><span id="cartTotal">0 د.إ</span></button>
+  </div>
+
+  <dialog id="cart" aria-labelledby="cartTitle">
+    <div class="sheet">
+      <h2 id="cartTitle">طلبك</h2>
+      <div id="cartLines"></div>
+      <div class="total"><span>الإجمالي</span><span id="cartSum"></span></div>
+      <label for="notes">ملاحظات للمطبخ (اختياري)</label>
+      <textarea id="notes" rows="2" placeholder="مثال: بدون بصل"></textarea>
+      <div class="actions">
+        <button class="btn btn--wa" type="button" id="sendOrder">إرسال الطلب عبر واتساب</button>
+        <button class="btn btn--ghost" type="button" id="closeCart">متابعة الاختيار</button>
+      </div>
+      <p class="note">في العرض التجريبي يفتح واتساب برسالة الطلب جاهزة، وتختار أنت جهة الإرسال.</p>
+    </div>
+  </dialog>
+
+  <footer>
+    عرض تجريبي صممته <a href="https://shifracode.github.io/">ShifraCode</a>.
+    <br>هل تريد قائمة مثل هذه لمطعمك؟ <a href="https://shifracode.github.io/#contact">تواصل معنا</a>
+  </footer>
+
+  <script>
+    // ===== بيانات القائمة (عدّلها بسهولة) =====
+    const CURRENCY = "د.إ";
+    const MENU = [
+      { id: "starters", name: "المقبلات", items: [
+        { id: 1, icon: "🥗", name: "فتوش", desc: "خضار طازجة مع خبز محمّص ودبس الرمان", price: 22, tag: "نباتي" },
+        { id: 2, icon: "🧆", name: "فلافل (6 قطع)", desc: "تُقدّم مع صلصة الطحينة", price: 18, tag: "نباتي" },
+        { id: 3, icon: "🫓", name: "حمص بيروتي", desc: "حمص كريمي بزيت الزيتون والكمون", price: 20 },
+      ]},
+      { id: "grills", name: "المشويات", items: [
+        { id: 4, icon: "🍢", name: "شيش طاووق", desc: "صدر دجاج متبّل مع الثومية والبطاطس", price: 48 },
+        { id: 5, icon: "🥩", name: "كباب لحم", desc: "لحم غنم مفروم على الفحم", price: 55 },
+        { id: 6, icon: "🍖", name: "مشاوي مشكّلة", desc: "طاووق وكباب وريش لشخصين", price: 120 },
+      ]},
+      { id: "mains", name: "الأطباق الرئيسية", items: [
+        { id: 7, icon: "🍛", name: "مندي دجاج", desc: "أرز مندي مع نصف دجاجة", price: 45 },
+        { id: 8, icon: "🍲", name: "مقلوبة باذنجان", desc: "أرز ودجاج وباذنجان مع اللبن", price: 42 },
+      ]},
+      { id: "desserts", name: "الحلويات", items: [
+        { id: 9, icon: "🍮", name: "أم علي", desc: "بالمكسرات والقشطة، تُقدّم ساخنة", price: 24 },
+        { id: 10, icon: "🧁", name: "كنافة بالجبن", desc: "كنافة ناعمة بالقطر", price: 28 },
+      ]},
+      { id: "drinks", name: "المشروبات", items: [
+        { id: 11, icon: "🍋", name: "ليمون بالنعناع", desc: "عصير طازج", price: 15 },
+        { id: 12, icon: "☕", name: "قهوة عربية", desc: "دلة صغيرة مع تمر", price: 18 },
+        { id: 13, icon: "🫖", name: "شاي كرك", desc: "بالحليب والهيل", price: 10 },
+      ]},
+    ];
+
+    const cart = new Map(); // id -> qty
+    const allItems = MENU.flatMap((c) => c.items);
+    const money = (n) => n.toLocaleString("ar-u-nu-latn") + " " + CURRENCY;
+
+    // رقم الطاولة من الرابط (مثال: ?table=12) — كل طاولة لها QR مختلف
+    const table = new URLSearchParams(location.search).get("table");
+    if (table) document.getElementById("tableNo").textContent = table;
+
+    // ===== رسم القائمة =====
+    const tabs = document.getElementById("tabs");
+    const menuEl = document.getElementById("menu");
+    tabs.innerHTML = MENU.map((c, i) => `<button class="tab" type="button" data-cat="${c.id}" aria-current="${i === 0}">${c.name}</button>`).join("");
+    menuEl.innerHTML = MENU.map((c) => `
+      <section data-section="${c.id}">
+        <h2 class="cat-title" id="cat-${c.id}">${c.name}</h2>
+        <div class="items">${c.items.map(itemHTML).join("")}</div>
+      </section>`).join("");
+
+    function itemHTML(it) {
+      return `<article class="item" data-item="${it.id}" data-name="${it.name} ${it.desc}">
+        <div class="thumb" aria-hidden="true">${it.icon}</div>
+        <div>
+          <h3>${it.name}${it.tag ? `<span class="tag">${it.tag}</span>` : ""}</h3>
+          <p>${it.desc}</p>
+          <div class="row"><span class="price">${money(it.price)}</span><span class="qty" data-qty="${it.id}"></span></div>
+        </div>
+      </article>`;
+    }
+
+    function renderQty(id) {
+      const q = cart.get(id) || 0;
+      const box = document.querySelector(`[data-qty="${id}"]`);
+      const name = allItems.find((i) => i.id === id).name;
+      box.innerHTML = q === 0
+        ? `<button class="add" type="button" data-plus="${id}" aria-label="أضف ${name}">+ أضف</button>`
+        : `<button type="button" data-minus="${id}" aria-label="أنقص ${name}">−</button><span aria-live="polite">${q}</span><button type="button" data-plus="${id}" aria-label="زد ${name}">+</button>`;
+    }
+    allItems.forEach((i) => renderQty(i.id));
+
+    function updateCartBar() {
+      let count = 0, sum = 0;
+      cart.forEach((q, id) => { count += q; sum += q * allItems.find((i) => i.id === id).price; });
+      document.getElementById("cartBar").style.display = count ? "block" : "none";
+      document.getElementById("cartCount").textContent = count;
+      document.getElementById("cartTotal").textContent = money(sum);
+      return sum;
+    }
+
+    menuEl.addEventListener("click", (e) => {
+      const plus = e.target.closest("[data-plus]");
+      const minus = e.target.closest("[data-minus]");
+      if (!plus && !minus) return;
+      const id = Number((plus || minus).dataset.plus || (plus || minus).dataset.minus);
+      const q = (cart.get(id) || 0) + (plus ? 1 : -1);
+      q > 0 ? cart.set(id, q) : cart.delete(id);
+      renderQty(id);
+      updateCartBar();
+    });
+
+    // ===== الأقسام والبحث =====
+    tabs.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-cat]");
+      if (!b) return;
+      document.getElementById("cat-" + b.dataset.cat).scrollIntoView({ behavior: "smooth" });
+    });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        tabs.querySelectorAll(".tab").forEach((t) => t.setAttribute("aria-current", t.dataset.cat === en.target.dataset.section));
+      });
+    }, { rootMargin: "-80px 0px -60% 0px" });
+    document.querySelectorAll("[data-section]").forEach((s) => observer.observe(s));
+
+    document.getElementById("search").addEventListener("input", (e) => {
+      const q = e.target.value.trim();
+      let shown = 0;
+      document.querySelectorAll("[data-section]").forEach((sec) => {
+        let any = false;
+        sec.querySelectorAll("[data-item]").forEach((it) => {
+          const ok = !q || it.dataset.name.includes(q);
+          it.hidden = !ok; if (ok) { any = true; shown++; }
+        });
+        sec.hidden = !any;
+      });
+      document.getElementById("emptySearch").style.display = shown ? "none" : "block";
+    });
+
+    // ===== سلة الطلب =====
+    const dlg = document.getElementById("cart");
+    document.getElementById("openCart").addEventListener("click", () => {
+      const lines = [...cart].map(([id, q]) => {
+        const it = allItems.find((i) => i.id === id);
+        return `<div class="line"><span>${q} × ${it.name}</span><span>${money(q * it.price)}</span></div>`;
+      }).join("");
+      document.getElementById("cartLines").innerHTML = lines;
+      document.getElementById("cartSum").textContent = money(updateCartBar());
+      dlg.showModal();
+    });
+    document.getElementById("closeCart").addEventListener("click", () => dlg.close());
+    dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
+
+    document.getElementById("sendOrder").addEventListener("click", () => {
+      const tableNo = document.getElementById("tableNo").textContent;
+      const notes = document.getElementById("notes").value.trim();
+      const lines = [...cart].map(([id, q]) => `- ${q} × ${allItems.find((i) => i.id === id).name}`);
+      const text = `طلب جديد من طاولة ${tableNo}:\n${lines.join("\n")}\nالإجمالي: ${money(updateCartBar())}` + (notes ? `\nملاحظات: ${notes}` : "");
+      // في المطعم الحقيقي نضع رقم واتساب المطعم بعد wa.me/
+      window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank", "noopener");
+    });
+  </script>
+</body>
+</html>

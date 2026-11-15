@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>متاجر مدار | لوحة المبيعات (عرض تجريبي)</title>
+  <meta name="description" content="عرض تجريبي للوحة تحكم المبيعات من تصميم ShifraCode.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f6fa; --card: #ffffff; --ink: #121826; --ink-2: #4b5565; --muted: #7b8494; --line: #e4e8ef; --grid: #eef1f5;
+      --series: #2f6fde; --series-soft: rgba(47, 111, 222, .12);
+      --good: #1a7f4b; --good-bg: #e6f4ec; --warn: #9a6400; --warn-bg: #fdf3dc; --crit: #b42318; --crit-bg: #fde8e7;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Cairo", system-ui, sans-serif; line-height: 1.6; }
+    button { font: inherit; cursor: pointer; }
+    .demo-bar { background: #0a0b0a; color: #e9ece6; font-size: 13px; text-align: center; padding: 8px 16px; }
+    .demo-bar a { color: #c6ff3d; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+
+    header.top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 24px 0 16px; }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand i { width: 40px; height: 40px; border-radius: 12px; background: var(--series); color: #fff; display: grid; place-items: center; font-style: normal; font-weight: 800; }
+    .brand h1 { margin: 0; font-size: 22px; }
+    .brand small { color: var(--muted); display: block; font-size: 13px; }
+
+    .filters { display: flex; gap: 4px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px; }
+    .filters button { border: 0; background: transparent; border-radius: 9px; padding: 6px 14px; color: var(--ink-2); font-size: 14px; }
+    .filters button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
+    .kpi .lbl { color: var(--ink-2); font-size: 14px; }
+    .kpi .val { font-size: 28px; font-weight: 800; margin: 2px 0; font-variant-numeric: tabular-nums; }
+    .delta { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 700; border-radius: 999px; padding: 0 8px; }
+    .delta.up { color: var(--good); background: var(--good-bg); }
+    .delta.down { color: var(--crit); background: var(--crit-bg); }
+    .kpi .cmp { color: var(--muted); font-size: 12px; margin-inline-start: 4px; }
+
+    .row { display: grid; grid-template-columns: 1.6fr 1fr; gap: 12px; margin-top: 12px; }
+    .panel { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; min-width: 0; }
+    .panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+    .panel h2 { font-size: 16px; margin: 0; }
+    .panel .sub { color: var(--muted); font-size: 13px; }
+    .link-btn { border: 0; background: none; color: var(--series); font-size: 13px; padding: 0; }
+
+    .chart { position: relative; direction: ltr; }
+    .chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .tip { position: absolute; pointer-events: none; background: var(--ink); color: #fff; border-radius: 8px; padding: 6px 10px; font-size: 13px; white-space: nowrap; transform: translate(-50%, -100%); margin-top: -10px; opacity: 0; transition: opacity .1s; direction: rtl; }
+    .tip b { display: block; font-size: 15px; }
+    .chart-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .chart-table th, .chart-table td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: right; }
+    .chart-table td:last-child { font-variant-numeric: tabular-nums; }
+
+    table.list { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .list th { color: var(--muted); font-weight: 600; text-align: right; padding: 8px; border-bottom: 1px solid var(--line); }
+    .list td { padding: 10px 8px; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+    .list tr:last-child td { border-bottom: 0; }
+    .status { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; border-radius: 999px; padding: 1px 10px; white-space: nowrap; }
+    .status.crit { color: var(--crit); background: var(--crit-bg); }
+    .status.warn { color: var(--warn); background: var(--warn-bg); }
+
+    footer { text-align: center; color: var(--muted); font-size: 13px; padding: 32px 16px; }
+    footer a { color: var(--series); }
+    @media (max-width: 960px) { .kpis { grid-template-columns: repeat(2, 1fr); } .row { grid-template-columns: 1fr; } }
+    @media (max-width: 420px) { .kpi .val { font-size: 22px; } }
+  </style>
+</head>
+<body>
+  <div class="demo-bar">عرض تجريبي من <a href="https://shifracode.github.io/">ShifraCode</a> · الشركة والأرقام وهمية</div>
+
+  <div class="wrap">
+    <header class="top">
+      <div class="brand"><i aria-hidden="true">م</i><div><h1>متاجر مدار</h1><small>لوحة المبيعات · 3 فروع</small></div></div>
+      <div class="filters" role="group" aria-label="الفترة الزمنية">
+        <button type="button" data-range="7">آخر 7 أيام</button>
+        <button type="button" data-range="30" aria-pressed="true">آخر 30 يومًا</button>
+        <button type="button" data-range="12m">آخر 12 شهرًا</button>
+      </div>
+    </header>
+
+    <section class="kpis" id="kpis" aria-label="المؤشرات الرئيسية"></section>
+
+    <div class="row">
+      <section class="panel">
+        <div class="panel-head">
+          <div><h2>المبيعات</h2><span class="sub" id="salesSub"></span></div>
+          <button class="link-btn" type="button" data-toggle="sales">عرض كجدول</button>
+        </div>
+        <div class="chart" id="salesChart"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div><h2>المبيعات حسب القسم</h2><span class="sub">بالدرهم</span></div>
+          <button class="link-btn" type="button" data-toggle="cats">عرض كجدول</button>
+        </div>
+        <div class="chart" id="catChart"></div>
+      </section>
+    </div>
+
+    <div class="row">
+      <section class="panel">
+        <div class="panel-head"><h2>الأكثر مبيعًا</h2><span class="sub" id="topSub"></span></div>
+        <table class="list" id="topTable"></table>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><h2>تنبيهات المخزون</h2><span class="sub">يحتاج إعادة طلب</span></div>
+        <table class="list" id="stockTable"></table>
+      </section>
+    </div>
+  </div>
+
+  <footer>
+    عرض تجريبي صممته <a href="https://shifracode.github.io/">ShifraCode</a>.
+    <br>هل تريد لوحة مثل هذه لشركتك؟ <a href="https://shifracode.github.io/#contact">تواصل معنا</a>
+  </footer>
+
+  <script>
+    // ===== بيانات تجريبية ثابتة (مولّدة بنفس الطريقة كل مرة) =====
+    function rng(seed) { return () => (seed = (seed * 16807) % 2147483647) / 2147483647; }
+    const fmt = (n) => Math.round(n).toLocaleString("ar-u-nu-latn");
+    const money = (n) => fmt(n) + " د.إ";
+
+    function series(range) {
+      const r = rng(range === "12m" ? 11 : range === "7" ? 7 : 30);
+      const pts = [];
+      if (range === "12m") {
+        const now = new Date();
+        for (let i = 11; i >= 0; i--) {
+          const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+          pts.push({ label: d.toLocaleDateString("ar-u-nu-latn", { month: "short" }), long: d.toLocaleDateString("ar-u-nu-latn", { month: "long", year: "numeric" }), v: 260000 + (11 - i) * 9000 + r() * 70000 });
+        }
+      } else {
+        const n = Number(range);
+        for (let i = n - 1; i >= 0; i--) {
+          const d = new Date(); d.setDate(d.getDate() - i);
+          const weekend = d.getDay() === 5 || d.getDay() === 6;
+          pts.push({ label: d.toLocaleDateString("ar-u-nu-latn", { day: "numeric", month: "numeric" }), long: d.toLocaleDateString("ar-u-nu-latn", { weekday: "long", day: "numeric", month: "long" }), v: 8000 + r() * 5000 + (weekend ? 5000 : 0) + (n - i) * 60 });
+        }
+      }
+      return pts;
+    }
+
+    const CATS = ["الإلكترونيات", "الملابس", "المنزل والمطبخ", "العناية الشخصية", "الألعاب"];
+    const SHARES = [0.34, 0.24, 0.19, 0.14, 0.09];
+    const PRODUCTS = [
+      ["سماعات لاسلكية", 189], ["حذاء رياضي", 249], ["قلاية هوائية", 399], ["عطر شرقي 100مل", 320],
+      ["ساعة ذكية", 599], ["طقم أواني", 450],
+    ];
+    const STOCK = [
+      { name: "سماعات لاسلكية", left: 4, level: "crit" },
+      { name: "ساعة ذكية", left: 7, level: "crit" },
+      { name: "قلاية هوائية", left: 15, level: "warn" },
+      { name: "كريم ترطيب", left: 22, level: "warn" },
+    ];
+
+    // ===== الرسم =====
+    let range = "30";
+    const showTable = { sales: false, cats: false };
+
+    function render() {
+      const pts = series(range);
+      const total = pts.reduce((s, p) => s + p.v, 0);
+      const prev = total * (range === "12m" ? 0.83 : range === "7" ? 1.06 : 0.91);
+      const orders = total / (range === "12m" ? 236 : 228);
+      const prevOrders = orders * (range === "7" ? 0.97 : 0.94);
+      const profit = total * 0.27;
+      const prevProfit = prev * 0.255;
+      const cmp = range === "12m" ? "عن الـ 12 شهرًا السابقة" : range === "7" ? "عن الأسبوع السابق" : "عن الشهر السابق";
+      const kpi = (lbl, v, p, f) => {
+        const d = (v - p) / p * 100, up = d >= 0;
+        return `<div class="kpi"><div class="lbl">${lbl}</div><div class="val">${f(v)}</div>
+          <span class="delta ${up ? "up" : "down"}"><span aria-hidden="true">${up ? "▲" : "▼"}</span>${up ? "+" : "−"}${Math.abs(d).toFixed(1)}%</span><span class="cmp">${cmp}</span></div>`;
+      };
+      document.getElementById("kpis").innerHTML =
+        kpi("إجمالي المبيعات", total, prev, money) +
+        kpi("عدد الطلبات", orders, prevOrders, fmt) +
+        kpi("متوسط قيمة الطلب", total / orders, prev / prevOrders, money) +
+        kpi("صافي الربح", profit, prevProfit, money);
+
+      document.getElementById("salesSub").textContent = range === "12m" ? "شهريًا" : "يوميًا";
+      document.getElementById("topSub").textContent = range === "12m" ? "آخر 12 شهرًا" : range === "7" ? "آخر 7 أيام" : "آخر 30 يومًا";
+      showTable.sales ? tableView("salesChart", pts.map((p) => [p.long, money(p.v)]), "التاريخ") : lineChart(pts);
+      const cats = CATS.map((c, i) => ({ label: c, v: total * SHARES[i] }));
+      showTable.cats ? tableView("catChart", cats.map((c) => [c.label, money(c.v)]), "القسم") : barChart(cats);
+
+      const scale = total / 300000;
+      document.getElementById("topTable").innerHTML = "<tr><th>المنتج</th><th>المبيع</th><th>الإيراد</th></tr>" +
+        PRODUCTS.map(([n, price], i) => { const q = Math.round((120 - i * 15) * scale); return `<tr><td>${n}</td><td>${fmt(q)} قطعة</td><td>${money(q * price)}</td></tr>`; }).join("");
+      document.getElementById("stockTable").innerHTML = "<tr><th>المنتج</th><th>المتبقي</th><th>الحالة</th></tr>" +
+        STOCK.map((s) => `<tr><td>${s.name}</td><td>${s.left} قطعة</td><td><span class="status ${s.level}"><span aria-hidden="true">${s.level === "crit" ? "⛔" : "⚠"}</span>${s.level === "crit" ? "حرج" : "منخفض"}</span></td></tr>`).join("");
+    }
+
+    function niceMax(v) { const p = Math.pow(10, Math.floor(Math.log10(v))); return Math.ceil(v / p) * p; }
+    const short = (v) => v >= 1000 ? (v / 1000).toLocaleString("ar-u-nu-latn", { maximumFractionDigits: 0 }) + " ألف" : fmt(v);
+
+    function lineChart(pts) {
+      const el = document.getElementById("salesChart");
+      const W = 640, H = 260, L = 56, R = 12, T = 12, B = 30;
+      const max = niceMax(Math.max(...pts.map((p) => p.v)) * 1.05);
+      const x = (i) => L + (W - L - R) * (pts.length === 1 ? 0.5 : i / (pts.length - 1));
+      const y = (v) => T + (H - T - B) * (1 - v / max);
+      const grid = [0, .25, .5, .75, 1].map((f) => `<line x1="${L}" x2="${W - R}" y1="${y(max * f)}" y2="${y(max * f)}" stroke="var(--grid)"/><text x="${L - 8}" y="${y(max * f) + 4}" text-anchor="end" font-size="11" fill="var(--muted)">${short(max * f)}</text>`).join("");
+      const every = Math.ceil(pts.length / 7);
+      const xl = pts.map((p, i) => (i % every === 0 || i === pts.length - 1) ? `<text x="${x(i)}" y="${H - 8}" text-anchor="middle" font-size="11" fill="var(--muted)">${p.label}</text>` : "").join("");
+      const path = pts.map((p, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join("");
+      const area = `${path}L${x(pts.length - 1)},${y(0)}L${x(0)},${y(0)}Z`;
+      el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="رسم بياني للمبيعات">
+        ${grid}${xl}
+        <path d="${area}" fill="var(--series-soft)"/>
+        <path d="${path}" fill="none" stroke="var(--series)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+        <line id="cross" y1="${T}" y2="${y(0)}" stroke="var(--muted)" stroke-dasharray="3 3" opacity="0"/>
+        <circle id="dot" r="5" fill="var(--series)" stroke="#fff" stroke-width="2" opacity="0"/>
+        <rect x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}" fill="transparent" id="hit"/>
+      </svg><div class="tip" id="salesTip"></div>`;
+      const svg = el.querySelector("svg"), tip = el.querySelector("#salesTip");
+      const move = (ev) => {
+        const r = svg.getBoundingClientRect();
+        const px = (ev.clientX - r.left) / r.width * W;
+        const i = Math.max(0, Math.min(pts.length - 1, Math.round((px - L) / (W - L - R) * (pts.length - 1))));
+        const cx = x(i), cy = y(pts[i].v);
+        svg.querySelector("#cross").setAttribute("x1", cx); svg.querySelector("#cross").setAttribute("x2", cx); svg.querySelector("#cross").setAttribute("opacity", 1);
+        svg.querySelector("#dot").setAttribute("cx", cx); svg.querySelector("#dot").setAttribute("cy", cy); svg.querySelector("#dot").setAttribute("opacity", 1);
+        tip.innerHTML = `${pts[i].long}<b>${money(pts[i].v)}</b>`;
+        tip.style.left = (cx / W * 100) + "%"; tip.style.top = (cy / H * r.height) + "px"; tip.style.opacity = 1;
+      };
+      const hit = svg.querySelector("#hit");
+      hit.addEventListener("pointermove", move);
+      hit.addEventListener("pointerleave", () => { tip.style.opacity = 0; svg.querySelector("#cross").setAttribute("opacity", 0); svg.querySelector("#dot").setAttribute("opacity", 0); });
+    }
+
+    function barChart(items) {
+      const el = document.getElementById("catChart");
+      const W = 400, rowH = 46, H = items.length * rowH, LBL = 0;
+      const max = Math.max(...items.map((i) => i.v));
+      // أشرطة أفقية من اليمين لليسار تناسب العربية: الاسم فوق الشريط، والقيمة بجانبه
+      el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="المبيعات حسب القسم">
+        ${items.map((it, i) => {
+          const w = (W - 90) * it.v / max, yy = i * rowH;
+          return `<g class="bar" data-i="${i}">
+            <rect x="0" y="${yy}" width="${W}" height="${rowH}" fill="transparent"/>
+            <text x="${W}" y="${yy + 15}" text-anchor="end" font-size="13" fill="var(--ink-2)">${it.label}</text>
+            <rect x="${W - w}" y="${yy + 22}" width="${w}" height="14" rx="4" fill="var(--series)"/>
+            <text x="${W - w - 8}" y="${yy + 34}" text-anchor="end" font-size="12" fill="var(--ink-2)">${short(it.v)}</text>
+          </g>`;
+        }).join("")}
+      </svg><div class="tip" id="catTip"></div>`;
+      const svg = el.querySelector("svg"), tip = el.querySelector("#catTip");
+      svg.querySelectorAll(".bar").forEach((g) => {
+        g.addEventListener("pointerenter", () => {
+          const i = Number(g.dataset.i), r = svg.getBoundingClientRect();
+          const share = items[i].v / items.reduce((s, x) => s + x.v, 0) * 100;
+          tip.innerHTML = `${items[i].label}<b>${money(items[i].v)}</b>${share.toFixed(0)}% من الإجمالي`;
+          tip.style.left = "50%"; tip.style.top = ((i * rowH + 20) / H * r.height) + "px"; tip.style.opacity = 1;
+          g.querySelectorAll("rect")[1].setAttribute("fill", "#1f56b8");
+        });
+        g.addEventListener("pointerleave", () => { tip.style.opacity = 0; g.querySelectorAll("rect")[1].setAttribute("fill", "var(--series)"); });
+      });
+    }
+
+    function tableView(id, rows, head) {
+      document.getElementById(id).innerHTML = `<table class="chart-table" dir="rtl"><tr><th>${head}</th><th>المبيعات</th></tr>${rows.map((r) => `<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}</table>`;
+    }
+
+    document.querySelector(".filters").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-range]"); if (!b) return;
+      range = b.dataset.range;
+      document.querySelectorAll("[data-range]").forEach((x) => x.setAttribute("aria-pressed", x === b));
+      render();
+    });
+    document.querySelectorAll("[data-toggle]").forEach((b) => b.addEventListener("click", () => {
+      const k = b.dataset.toggle; showTable[k] = !showTable[k];
+      b.textContent = showTable[k] ? "عرض كرسم بياني" : "عرض كجدول";
+      render();
+    }));
+    render();
+  </script>
+</body>
+</html>

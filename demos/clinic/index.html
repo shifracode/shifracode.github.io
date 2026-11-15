@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>عيادات نبض | احجز موعدك (عرض تجريبي)</title>
+  <meta name="description" content="عرض تجريبي لموقع عيادة ونظام حجز مواعيد من تصميم ShifraCode.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5fafa; --card: #ffffff; --ink: #0f2a2c; --muted: #5d7476; --line: #dbe9ea;
+      --brand: #0e8a86; --brand-dark: #0a6b68; --soft: #e3f3f2; --err: #b42318;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Cairo", system-ui, sans-serif; line-height: 1.7; }
+    button { font: inherit; cursor: pointer; }
+    .demo-bar { background: #0a0b0a; color: #e9ece6; font-size: 13px; text-align: center; padding: 8px 16px; }
+    .demo-bar a { color: #c6ff3d; }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+
+    header.nav { background: var(--card); border-bottom: 1px solid var(--line); }
+    .nav .wrap { display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: 12px; }
+    .brand { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 20px; }
+    .brand i { width: 36px; height: 36px; border-radius: 10px; background: var(--brand); color: #fff; display: grid; place-items: center; font-style: normal; }
+    .nav a.cta { background: var(--brand); color: #fff; text-decoration: none; border-radius: 999px; padding: 8px 18px; font-weight: 700; font-size: 14px; white-space: nowrap; }
+
+    .hero { padding: 56px 0 40px; display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; align-items: center; }
+    .hero h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.3; margin: 0 0 12px; }
+    .hero p { color: var(--muted); font-size: 17px; margin: 0 0 20px; }
+    .hero ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+    .hero li::before { content: "✓"; color: var(--brand); font-weight: 800; margin-inline-end: 8px; }
+    .hero-art { background: var(--soft); border-radius: 24px; aspect-ratio: 1; display: grid; place-items: center; font-size: 120px; }
+
+    h2 { font-size: 28px; margin: 0 0 16px; }
+    section { padding: 40px 0; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+    .spec { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; text-align: center; }
+    .spec span { font-size: 34px; display: block; }
+    .spec b { display: block; margin-top: 4px; }
+
+    /* ===== الحجز ===== */
+    .booking { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 24px; }
+    .steps { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+    .stepper { font-size: 13px; color: var(--muted); background: var(--bg); border-radius: 999px; padding: 4px 12px; }
+    .stepper[aria-current="step"] { background: var(--brand); color: #fff; }
+    .stepper.done { background: var(--soft); color: var(--brand-dark); }
+    .pane[hidden] { display: none; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .opt { text-align: start; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: flex; gap: 12px; align-items: center; }
+    .opt:hover { border-color: var(--brand); }
+    .opt[aria-pressed="true"] { border-color: var(--brand); background: var(--soft); box-shadow: inset 0 0 0 1px var(--brand); }
+    .opt .av { width: 48px; height: 48px; border-radius: 50%; background: var(--soft); display: grid; place-items: center; font-size: 24px; flex-shrink: 0; }
+    .opt small { display: block; color: var(--muted); }
+    .days { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; }
+    .day { flex: 0 0 auto; min-width: 82px; text-align: center; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 10px 8px; }
+    .day b { display: block; font-size: 20px; }
+    .day[aria-pressed="true"] { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .day:disabled { opacity: .45; cursor: not-allowed; }
+    .slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 8px; margin-top: 16px; }
+    .slot { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 8px 0; }
+    .slot[aria-pressed="true"] { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .slot:disabled { text-decoration: line-through; color: #a6b6b7; cursor: not-allowed; background: var(--bg); }
+    .field { margin-bottom: 14px; }
+    .field label { display: block; font-weight: 600; margin-bottom: 4px; }
+    .field input { width: 100%; border: 1px solid var(--line); border-radius: 12px; padding: 12px; font: inherit; }
+    .field input:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+    .field .err { color: var(--err); font-size: 13px; min-height: 20px; }
+    .field input[aria-invalid="true"] { border-color: var(--err); }
+    .summary { background: var(--bg); border-radius: 14px; padding: 14px; margin-bottom: 16px; font-size: 15px; }
+    .nav-btns { display: flex; justify-content: space-between; gap: 8px; margin-top: 20px; }
+    .btn { border: 0; border-radius: 12px; padding: 12px 22px; font-weight: 700; }
+    .btn--main { background: var(--brand); color: #fff; }
+    .btn--main:disabled { opacity: .45; cursor: not-allowed; }
+    .btn--ghost { background: var(--bg); color: var(--ink); }
+    .done-box { text-align: center; padding: 24px 0; }
+    .done-box .ok { width: 72px; height: 72px; border-radius: 50%; background: var(--soft); color: var(--brand); display: grid; place-items: center; font-size: 36px; margin: 0 auto 12px; }
+    .code { font-family: monospace; font-size: 22px; background: var(--bg); border-radius: 10px; padding: 4px 14px; display: inline-block; direction: ltr; }
+    .note { color: var(--muted); font-size: 13px; }
+
+    footer { text-align: center; color: var(--muted); font-size: 13px; padding: 32px 16px; border-top: 1px solid var(--line); }
+    footer a { color: var(--brand); }
+    @media (max-width: 760px) { .hero { grid-template-columns: 1fr; } .hero-art { display: none; } .booking { padding: 18px; } }
+  </style>
+</head>
+<body>
+  <div class="demo-bar">عرض تجريبي من <a href="https://shifracode.github.io/">ShifraCode</a> · العيادة والأطباء وهميون</div>
+
+  <header class="nav">
+    <div class="wrap">
+      <div class="brand"><i aria-hidden="true">✚</i> عيادات نبض</div>
+      <a class="cta" href="#book">احجز موعدًا</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap hero">
+      <div>
+        <h1>رعاية طبية متكاملة، وموعدك في دقيقة</h1>
+        <p>اختر التخصص والطبيب والوقت المناسب لك، واحجز موعدك إلكترونيًا دون اتصال أو انتظار.</p>
+        <ul>
+          <li>نخبة من الأطباء في 4 تخصصات</li>
+          <li>تأكيد فوري للحجز</li>
+          <li>تذكير بالموعد قبله بيوم</li>
+        </ul>
+      </div>
+      <div class="hero-art" aria-hidden="true">🩺</div>
+    </div>
+
+    <section>
+      <div class="wrap">
+        <h2>تخصصاتنا</h2>
+        <div class="specs" id="specs"></div>
+      </div>
+    </section>
+
+    <section id="book">
+      <div class="wrap">
+        <h2>احجز موعدك</h2>
+        <div class="booking">
+          <div class="steps" id="steps">
+            <span class="stepper" data-step="1">1. الطبيب</span>
+            <span class="stepper" data-step="2">2. الموعد</span>
+            <span class="stepper" data-step="3">3. بياناتك</span>
+          </div>
+
+          <div class="pane" data-pane="1">
+            <div class="grid" id="doctors"></div>
+          </div>
+
+          <div class="pane" data-pane="2" hidden>
+            <div class="days" id="days" aria-label="اختر اليوم"></div>
+            <div class="slots" id="slots" aria-label="اختر الوقت"></div>
+          </div>
+
+          <form class="pane" data-pane="3" id="form" hidden novalidate>
+            <div class="summary" id="summary"></div>
+            <div class="field">
+              <label for="name">الاسم بالكامل</label>
+              <input id="name" autocomplete="name" aria-describedby="nameErr">
+              <div class="err" id="nameErr"></div>
+            </div>
+            <div class="field">
+              <label for="phone">رقم الجوال</label>
+              <input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="مثال: 0501234567" aria-describedby="phoneErr" dir="ltr" style="text-align:right">
+              <div class="err" id="phoneErr"></div>
+            </div>
+            <p class="note">هذا عرض تجريبي، ولا يتم إرسال أو حفظ أي بيانات.</p>
+          </form>
+
+          <div class="pane done-box" data-pane="4" hidden>
+            <div class="ok" aria-hidden="true">✓</div>
+            <h3>تم تأكيد حجزك</h3>
+            <p id="doneText"></p>
+            <p>رقم الحجز: <span class="code" id="code"></span></p>
+            <button class="btn btn--ghost" type="button" id="again">حجز موعد آخر</button>
+          </div>
+
+          <div class="nav-btns" id="navBtns">
+            <button class="btn btn--ghost" type="button" id="back">رجوع</button>
+            <button class="btn btn--main" type="button" id="next" disabled>التالي</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    عرض تجريبي صممته <a href="https://shifracode.github.io/">ShifraCode</a>.
+    <br>هل تريد موقعًا ونظام حجز لعيادتك؟ <a href="https://shifracode.github.io/#contact">تواصل معنا</a>
+  </footer>
+
+  <script>
+    // ===== بيانات العيادة (عدّلها بسهولة) =====
+    const SPECS = [
+      { id: "dent", icon: "🦷", name: "الأسنان" },
+      { id: "derm", icon: "✨", name: "الجلدية" },
+      { id: "peds", icon: "🧸", name: "الأطفال" },
+      { id: "intl", icon: "❤️", name: "الباطنة" },
+    ];
+    const DOCTORS = [
+      { id: 1, spec: "dent", name: "د. سارة الحسيني", title: "أخصائية تقويم الأسنان", fee: 200 },
+      { id: 2, spec: "dent", name: "د. عمر الشامي", title: "استشاري زراعة الأسنان", fee: 250 },
+      { id: 3, spec: "derm", name: "د. ليلى منصور", title: "أخصائية الجلدية والتجميل", fee: 220 },
+      { id: 4, spec: "peds", name: "د. يوسف الكردي", title: "استشاري طب الأطفال", fee: 180 },
+      { id: 5, spec: "intl", name: "د. هالة سليم", title: "أخصائية الباطنة والسكري", fee: 190 },
+    ];
+    const HOURS = ["10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30"];
+    const CLOSED_DAY = 5; // الجمعة
+
+    const state = { step: 1, doctor: null, day: null, time: null };
+    const $ = (id) => document.getElementById(id);
+    const specName = (id) => SPECS.find((s) => s.id === id);
+
+    $("specs").innerHTML = SPECS.map((s) => `<div class="spec"><span aria-hidden="true">${s.icon}</span><b>${s.name}</b></div>`).join("");
+    $("doctors").innerHTML = DOCTORS.map((d) => `
+      <button class="opt" type="button" aria-pressed="false" data-doc="${d.id}">
+        <span class="av" aria-hidden="true">${specName(d.spec).icon}</span>
+        <span><b>${d.name}</b><small>${d.title} · ${specName(d.spec).name}</small><small>الكشف: ${d.fee} د.إ</small></span>
+      </button>`).join("");
+
+    // الأيام: الأسبوع القادم
+    const days = [];
+    for (let i = 0; i < 8; i++) { const d = new Date(); d.setDate(d.getDate() + i); days.push(d); }
+    const dayLabel = (d) => d.toLocaleDateString("ar-u-nu-latn", { weekday: "long" });
+    $("days").innerHTML = days.map((d, i) => `
+      <button class="day" type="button" aria-pressed="false" data-day="${i}" ${d.getDay() === CLOSED_DAY ? "disabled" : ""}>
+        <small>${i === 0 ? "اليوم" : dayLabel(d)}</small><b>${d.getDate()}</b><small>${d.toLocaleDateString("ar-u-nu-latn", { month: "short" })}</small>
+      </button>`).join("");
+
+    // مواعيد محجوزة مسبقًا (بيانات تجريبية ثابتة لكل طبيب ويوم)
+    const isTaken = (doc, day, idx) => ((doc * 7 + day * 3 + idx * 5) % 4) === 0;
+
+    function renderSlots() {
+      if (state.day === null) { $("slots").innerHTML = '<p class="note">اختر اليوم أولًا.</p>'; return; }
+      $("slots").innerHTML = HOURS.map((h, i) => {
+        const taken = isTaken(state.doctor, state.day, i);
+        return `<button class="slot" type="button" aria-pressed="${state.time === h}" data-time="${h}" ${taken ? 'disabled aria-label="' + h + ' محجوز"' : ""}>${h}</button>`;
+      }).join("");
+    }
+
+    function setPressed(container, attr, value) {
+      container.querySelectorAll(`[${attr}]`).forEach((b) => b.setAttribute("aria-pressed", String(b.getAttribute(attr)) === String(value)));
+    }
+
+    $("doctors").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-doc]"); if (!b) return;
+      state.doctor = Number(b.dataset.doc); state.time = null;
+      setPressed($("doctors"), "data-doc", state.doctor); updateNav();
+    });
+    $("days").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-day]"); if (!b || b.disabled) return;
+      state.day = Number(b.dataset.day); state.time = null;
+      setPressed($("days"), "data-day", state.day); renderSlots(); updateNav();
+    });
+    $("slots").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-time]"); if (!b || b.disabled) return;
+      state.time = b.dataset.time; setPressed($("slots"), "data-time", state.time); updateNav();
+    });
+
+    function show(step) {
+      state.step = step;
+      document.querySelectorAll("[data-pane]").forEach((p) => p.hidden = Number(p.dataset.pane) !== step);
+      document.querySelectorAll(".stepper").forEach((s) => {
+        const n = Number(s.dataset.step);
+        s.classList.toggle("done", n < step);
+        n === step ? s.setAttribute("aria-current", "step") : s.removeAttribute("aria-current");
+      });
+      $("navBtns").hidden = step === 4;
+      $("back").style.visibility = step === 1 ? "hidden" : "visible";
+      $("next").textContent = step === 3 ? "تأكيد الحجز" : "التالي";
+      if (step === 2) renderSlots();
+      if (step === 3) {
+        const d = DOCTORS.find((x) => x.id === state.doctor);
+        $("summary").innerHTML = `<b>${d.name}</b> · ${specName(d.spec).name}<br>${dayLabel(days[state.day])} ${days[state.day].toLocaleDateString("ar-u-nu-latn", { day: "numeric", month: "long" })} · الساعة ${state.time}<br>رسوم الكشف: ${d.fee} د.إ`;
+        $("name").focus();
+      }
+      updateNav();
+    }
+
+    function updateNav() {
+      const ok = state.step === 1 ? state.doctor !== null : state.step === 2 ? state.time !== null : true;
+      $("next").disabled = !ok;
+    }
+
+    // التحقق من الحقول عند الخروج منها، ومسح الخطأ فور التصحيح
+    const rules = {
+      name: (v) => v.trim().split(/\s+/).length >= 2 ? "" : "اكتب الاسم الأول واسم العائلة.",
+      phone: (v) => /^0?5\d{8}$|^01[0125]\d{8}$/.test(v.replace(/\s/g, "")) ? "" : "اكتب رقم جوال صحيحًا، مثل 0501234567.",
+    };
+    function check(id) {
+      const msg = rules[id]($(id).value);
+      $(id + "Err").textContent = msg;
+      $(id).setAttribute("aria-invalid", msg ? "true" : "false");
+      return !msg;
+    }
+    ["name", "phone"].forEach((id) => {
+      $(id).addEventListener("blur", () => check(id));
+      $(id).addEventListener("input", () => { if ($(id).getAttribute("aria-invalid") === "true") check(id); });
+    });
+
+    $("back").addEventListener("click", () => show(state.step - 1));
+    $("next").addEventListener("click", () => {
+      if (state.step < 3) return show(state.step + 1);
+      const valid = [check("name"), check("phone")];
+      if (valid.includes(false)) { (valid[0] ? $("phone") : $("name")).focus(); return; }
+      const d = DOCTORS.find((x) => x.id === state.doctor);
+      $("doneText").textContent = `موعدك مع ${d.name} يوم ${dayLabel(days[state.day])} الساعة ${state.time}. سيصلك تذكير قبل الموعد بيوم.`;
+      $("code").textContent = "NB-" + String(1000 + state.doctor * 137 + state.day * 11).slice(-4);
+      show(4);
+    });
+    $("form").addEventListener("submit", (e) => { e.preventDefault(); $("next").click(); });
+    $("again").addEventListener("click", () => {
+      Object.assign(state, { doctor: null, day: null, time: null });
+      ["name", "phone"].forEach((id) => { $(id).value = ""; $(id).removeAttribute("aria-invalid"); $(id + "Err").textContent = ""; });
+      setPressed($("doctors"), "data-doc", null); setPressed($("days"), "data-day", null);
+      show(1);
+    });
+    show(1);
+  </script>
+</body>
+</html>
