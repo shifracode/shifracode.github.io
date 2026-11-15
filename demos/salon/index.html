@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>صالون جوري | احجزي موعدك (عرض تجريبي)</title>
+  <meta name="description" content="عرض تجريبي لنظام حجز صالون تجميل من تصميم ShifraCode.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #fdf6f7; --card: #fff; --ink: #2a1720; --muted: #8a6f7b; --line: #f1dfe4; --brand: #b23a6b; --brand-dark: #8f2c55; --soft: #fbe9ef; --err: #b42318; --ok: #2f7d4f; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Cairo", system-ui, sans-serif; line-height: 1.6; padding-bottom: 90px; }
+    button { font: inherit; cursor: pointer; }
+    .demo-bar { background: #0a0b0a; color: #e9ece6; font-size: 13px; text-align: center; padding: 8px 16px; }
+    .demo-bar a { color: #c6ff3d; }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+    .hero { text-align: center; padding: 34px 0 18px; }
+    .logo { width: 76px; height: 76px; border-radius: 50%; background: var(--brand); color: #fff; display: grid; place-items: center; font-size: 34px; margin: 0 auto 8px; }
+    .hero h1 { margin: 0; font-size: 30px; }
+    .hero p { margin: 4px 0 0; color: var(--muted); }
+
+    .steps { display: flex; justify-content: center; gap: 8px; margin: 18px 0; flex-wrap: wrap; }
+    .stepper { font-size: 13px; color: var(--muted); background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 4px 14px; }
+    .stepper[aria-current="step"] { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .stepper.done { background: var(--soft); color: var(--brand-dark); border-color: var(--soft); }
+    h2 { font-size: 20px; margin: 0 0 12px; }
+    .cat { font-weight: 700; color: var(--muted); margin: 18px 0 8px; font-size: 14px; }
+    .services { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .svc { display: flex; align-items: center; gap: 12px; text-align: start; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+    .svc .ic { width: 44px; height: 44px; border-radius: 12px; background: var(--soft); display: grid; place-items: center; font-size: 22px; flex-shrink: 0; }
+    .svc .t { flex: 1; }
+    .svc small { display: block; color: var(--muted); }
+    .svc .pr { font-weight: 800; white-space: nowrap; }
+    .svc .ck { width: 24px; height: 24px; border-radius: 7px; border: 2px solid var(--line); display: grid; place-items: center; color: #fff; font-size: 14px; flex-shrink: 0; }
+    .svc[aria-pressed="true"] { border-color: var(--brand); box-shadow: inset 0 0 0 1px var(--brand); }
+    .svc[aria-pressed="true"] .ck { background: var(--brand); border-color: var(--brand); }
+
+    .staff { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .st { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px 8px; text-align: center; }
+    .st .av { width: 56px; height: 56px; border-radius: 50%; background: var(--soft); display: grid; place-items: center; font-size: 28px; margin: 0 auto 6px; }
+    .st small { display: block; color: var(--muted); font-size: 12px; }
+    .st[aria-pressed="true"] { border-color: var(--brand); background: var(--soft); box-shadow: inset 0 0 0 1px var(--brand); }
+
+    .days { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 8px; }
+    .day { flex: 0 0 auto; min-width: 74px; text-align: center; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 8px; }
+    .day b { display: block; font-size: 19px; }
+    .day[aria-pressed="true"] { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px; margin-top: 12px; }
+    .slot { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 8px 0; }
+    .slot[aria-pressed="true"] { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .slot:disabled { text-decoration: line-through; color: #c9b3bd; cursor: not-allowed; background: var(--bg); }
+
+    .field { margin-bottom: 12px; }
+    .field label { display: block; font-weight: 600; margin-bottom: 4px; }
+    .field input { width: 100%; border: 1px solid var(--line); border-radius: 12px; padding: 12px; font: inherit; }
+    .field input[aria-invalid="true"] { border-color: var(--err); }
+    .err { color: var(--err); font-size: 13px; min-height: 18px; }
+    .summary { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; margin-bottom: 14px; }
+    .summary .rowx { display: flex; justify-content: space-between; gap: 10px; padding: 3px 0; }
+    .summary .tot { font-weight: 800; border-top: 1px dashed var(--line); margin-top: 6px; padding-top: 8px; }
+
+    .bar { position: fixed; inset: auto 0 0 0; z-index: 10; background: rgba(253, 246, 247, .96); border-top: 1px solid var(--line); padding: 10px 16px; }
+    .bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0; }
+    .bar .info { font-size: 14px; color: var(--muted); }
+    .bar .info b { color: var(--ink); font-size: 17px; }
+    .btns { display: flex; gap: 8px; }
+    .btn { border: 0; border-radius: 12px; padding: 11px 22px; font-weight: 700; }
+    .btn--main { background: var(--brand); color: #fff; }
+    .btn--main:disabled { opacity: .4; cursor: not-allowed; }
+    .btn--ghost { background: var(--card); border: 1px solid var(--line); color: var(--ink); }
+    .done { text-align: center; padding: 20px 0; }
+    .done .ok { width: 76px; height: 76px; border-radius: 50%; background: #e6f4ec; color: var(--ok); display: grid; place-items: center; font-size: 36px; margin: 0 auto 12px; }
+    .note { color: var(--muted); font-size: 13px; }
+    footer { text-align: center; color: var(--muted); font-size: 13px; padding: 30px 16px; }
+    footer a { color: var(--brand); }
+    [hidden] { display: none !important; }
+    @media (max-width: 700px) { .services { grid-template-columns: 1fr; } .staff { grid-template-columns: repeat(2, 1fr); } }
+  </style>
+</head>
+<body>
+  <div class="demo-bar">عرض تجريبي من <a href="https://shifracode.github.io/">ShifraCode</a> · الصالون والأسعار وهمية</div>
+
+  <main class="wrap">
+    <header class="hero">
+      <div class="logo" aria-hidden="true">🌸</div>
+      <h1>صالون جوري</h1>
+      <p>شعر · أظافر · بشرة · مكياج — احجزي موعدك في أقل من دقيقة</p>
+    </header>
+
+    <div class="steps" id="steps">
+      <span class="stepper" data-step="1">1. الخدمات</span>
+      <span class="stepper" data-step="2">2. الأخصائية</span>
+      <span class="stepper" data-step="3">3. الموعد</span>
+      <span class="stepper" data-step="4">4. التأكيد</span>
+    </div>
+
+    <section data-pane="1"><h2>اختاري الخدمات</h2><div id="services"></div></section>
+    <section data-pane="2" hidden><h2>اختاري الأخصائية</h2><div class="staff" id="staff"></div></section>
+    <section data-pane="3" hidden><h2>اختاري اليوم والوقت</h2><div class="days" id="days"></div><div class="slots" id="slots"></div></section>
+    <section data-pane="4" hidden>
+      <h2>تأكيد الحجز</h2>
+      <div class="summary" id="summary"></div>
+      <form id="form" novalidate>
+        <div class="field"><label for="name">الاسم</label><input id="name" autocomplete="name"><div class="err" id="nameErr"></div></div>
+        <div class="field"><label for="phone">رقم الجوال</label><input id="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" style="text-align:right" placeholder="0501234567"><div class="err" id="phoneErr"></div></div>
+        <p class="note">الدفع في الصالون · يمكنك الإلغاء مجانًا قبل الموعد بـ 6 ساعات · عرض تجريبي: لا يتم حفظ أي بيانات.</p>
+      </form>
+    </section>
+    <section data-pane="5" hidden>
+      <div class="done" role="status"><div class="ok" aria-hidden="true">✓</div><h2>تم تأكيد موعدك</h2><p id="doneText"></p><p>رقم الحجز: <b dir="ltr" id="code"></b></p><button class="btn btn--ghost" type="button" id="again">حجز موعد آخر</button></div>
+    </section>
+  </main>
+
+  <div class="bar" id="bar">
+    <div class="wrap">
+      <div class="info" id="barInfo">لم تختاري أي خدمة بعد</div>
+      <div class="btns"><button class="btn btn--ghost" type="button" id="back">رجوع</button><button class="btn btn--main" type="button" id="next" disabled>التالي</button></div>
+    </div>
+  </div>
+
+  <footer>
+    عرض تجريبي صممته <a href="https://shifracode.github.io/">ShifraCode</a>.
+    <br>هل تريدين نظام حجز مثل هذا لصالونك أو مركزك؟ <a href="https://shifracode.github.io/#contact">تواصل معنا</a>
+  </footer>
+
+  <script>
+    // ===== الخدمات والأخصائيات (عدّلها بسهولة) =====
+    const SERVICES = [
+      { cat: "الشعر", items: [{ id: 1, ic: "💇‍♀️", n: "قص وتصفيف", min: 45, p: 120 }, { id: 2, ic: "🎨", n: "صبغة كاملة", min: 120, p: 350 }, { id: 3, ic: "✨", n: "بروتين / كيراتين", min: 150, p: 600 }] },
+      { cat: "الأظافر", items: [{ id: 4, ic: "💅", n: "مانيكير", min: 40, p: 90 }, { id: 5, ic: "🦶", n: "باديكير", min: 50, p: 110 }, { id: 6, ic: "💎", n: "جل أظافر", min: 60, p: 150 }] },
+      { cat: "البشرة والمكياج", items: [{ id: 7, ic: "🧖‍♀️", n: "تنظيف بشرة عميق", min: 60, p: 250 }, { id: 8, ic: "💄", n: "مكياج سهرة", min: 75, p: 400 }] },
+    ];
+    const STAFF = [
+      { id: 0, ic: "🌟", n: "أي أخصائية", s: "أول موعد متاح" },
+      { id: 1, ic: "👩", n: "ريم", s: "شعر وصبغات" },
+      { id: 2, ic: "👩‍🦱", n: "لينا", s: "أظافر" },
+      { id: 3, ic: "👩‍🦰", n: "دانة", s: "بشرة ومكياج" },
+    ];
+    const ALL = SERVICES.flatMap((c) => c.items);
+    const st = { step: 1, svc: new Set(), staff: null, day: null, time: null };
+    const $ = (id) => document.getElementById(id);
+    const money = (n) => n.toLocaleString("en") + " د.إ";
+    const dur = (m) => m >= 60 ? `${Math.floor(m / 60)} س${m % 60 ? " و" + (m % 60) + " د" : ""}` : m + " د";
+    const sums = () => { const s = [...st.svc].map((id) => ALL.find((x) => x.id === id)); return { list: s, min: s.reduce((a, x) => a + x.min, 0), price: s.reduce((a, x) => a + x.p, 0) }; };
+
+    $("services").innerHTML = SERVICES.map((c) => `<div class="cat">${c.cat}</div><div class="services">${c.items.map((s) => `
+      <button class="svc" type="button" data-svc="${s.id}" aria-pressed="false"><span class="ic" aria-hidden="true">${s.ic}</span><span class="t"><b>${s.n}</b><small>${dur(s.min)}</small></span><span class="pr">${money(s.p)}</span><span class="ck" aria-hidden="true">✓</span></button>`).join("")}</div>`).join("");
+    $("staff").innerHTML = STAFF.map((s) => `<button class="st" type="button" data-staff="${s.id}" aria-pressed="false"><span class="av" aria-hidden="true">${s.ic}</span><b>${s.n}</b><small>${s.s}</small></button>`).join("");
+    const days = []; for (let i = 0; i < 9; i++) { const d = new Date(); d.setDate(d.getDate() + i); days.push(d); }
+    const dname = (d, i) => i === 0 ? "اليوم" : i === 1 ? "غدًا" : d.toLocaleDateString("ar-u-nu-latn", { weekday: "long" });
+    $("days").innerHTML = days.map((d, i) => `<button class="day" type="button" data-day="${i}" aria-pressed="false"><small>${dname(d, i)}</small><b>${d.getDate()}</b></button>`).join("");
+    const HOURS = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"];
+    const taken = (i) => ((st.staff * 5 + st.day * 3 + i * 7) % 5) === 0;
+    function renderSlots() {
+      $("slots").innerHTML = st.day === null ? '<p class="note">اختاري اليوم أولًا.</p>' :
+        HOURS.map((h, i) => `<button class="slot" type="button" data-time="${h}" aria-pressed="${st.time === h}" ${taken(i) ? `disabled aria-label="${h} محجوز"` : ""}>${h}</button>`).join("");
+    }
+    const press = (sel, attr, val) => document.querySelectorAll(sel).forEach((b) => b.setAttribute("aria-pressed", String(b.getAttribute(attr)) === String(val)));
+
+    $("services").addEventListener("click", (e) => { const b = e.target.closest("[data-svc]"); if (!b) return; const id = Number(b.dataset.svc); st.svc.has(id) ? st.svc.delete(id) : st.svc.add(id); b.setAttribute("aria-pressed", st.svc.has(id)); sync(); });
+    $("staff").addEventListener("click", (e) => { const b = e.target.closest("[data-staff]"); if (!b) return; st.staff = Number(b.dataset.staff); st.time = null; press("[data-staff]", "data-staff", st.staff); sync(); });
+    $("days").addEventListener("click", (e) => { const b = e.target.closest("[data-day]"); if (!b) return; st.day = Number(b.dataset.day); st.time = null; press("[data-day]", "data-day", st.day); renderSlots(); sync(); });
+    $("slots").addEventListener("click", (e) => { const b = e.target.closest("[data-time]"); if (!b || b.disabled) return; st.time = b.dataset.time; press("[data-time]", "data-time", st.time); sync(); });
+
+    function sync() {
+      const s = sums();
+      $("barInfo").innerHTML = s.list.length ? `${s.list.length === 1 ? "خدمة واحدة" : s.list.length === 2 ? "خدمتان" : s.list.length + " خدمات"} ·${dur(s.min)} · <b>${money(s.price)}</b>` : "لم تختاري أي خدمة بعد";
+      const ok = { 1: s.list.length > 0, 2: st.staff !== null, 3: st.time !== null, 4: true }[st.step];
+      $("next").disabled = !ok;
+    }
+    function show(n) {
+      st.step = n;
+      document.querySelectorAll("[data-pane]").forEach((p) => p.hidden = Number(p.dataset.pane) !== n);
+      document.querySelectorAll(".stepper").forEach((x) => { const k = Number(x.dataset.step); x.classList.toggle("done", k < n); k === n ? x.setAttribute("aria-current", "step") : x.removeAttribute("aria-current"); });
+      $("bar").hidden = n === 5; $("back").style.visibility = n === 1 ? "hidden" : "visible";
+      $("next").textContent = n === 4 ? "تأكيد الحجز" : "التالي";
+      if (n === 3) renderSlots();
+      if (n === 4) {
+        const s = sums(), staff = STAFF.find((x) => x.id === st.staff);
+        $("summary").innerHTML = s.list.map((x) => `<div class="rowx"><span>${x.n}</span><span>${money(x.p)}</span></div>`).join("") +
+          `<div class="rowx"><span>الأخصائية</span><span>${staff.n}</span></div><div class="rowx"><span>الموعد</span><span>${dname(days[st.day], st.day)} · ${st.time}</span></div><div class="rowx"><span>المدة</span><span>${dur(s.min)}</span></div><div class="rowx tot"><span>الإجمالي</span><span>${money(s.price)}</span></div>`;
+      }
+      sync(); window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    }
+    const rules = { name: (v) => v.trim().length >= 3 ? "" : "اكتبي اسمك.", phone: (v) => /^0?5\d{8}$/.test(v.replace(/\s/g, "")) ? "" : "اكتبي رقم جوال صحيحًا، مثل 0501234567." };
+    const check = (id) => { const m = rules[id]($(id).value); $(id + "Err").textContent = m; $(id).setAttribute("aria-invalid", m ? "true" : "false"); return !m; };
+    Object.keys(rules).forEach((id) => { $(id).addEventListener("blur", () => check(id)); $(id).addEventListener("input", () => { if ($(id).getAttribute("aria-invalid") === "true") check(id); }); });
+
+    $("back").onclick = () => show(st.step - 1);
+    $("next").onclick = () => {
+      if (st.step < 4) return show(st.step + 1);
+      const ok = Object.keys(rules).map(check);
+      if (ok.includes(false)) { $(Object.keys(rules)[ok.indexOf(false)]).focus(); return; }
+      const staff = STAFF.find((x) => x.id === st.staff);
+      $("doneText").textContent = `بانتظارك يا ${$("name").value.trim().split(" ")[0]} ${dname(days[st.day], st.day)} الساعة ${st.time} مع ${staff.n}. سيصلك تذكير على واتساب قبل الموعد.`;
+      $("code").textContent = "JR-" + (2000 + st.day * 37 + st.svc.size * 11);
+      show(5);
+    };
+    $("form").addEventListener("submit", (e) => { e.preventDefault(); $("next").click(); });
+    $("again").onclick = () => { Object.assign(st, { svc: new Set(), staff: null, day: null, time: null }); press("[data-svc]", "x", 1); press("[data-staff]", "x", 1); press("[data-day]", "x", 1); show(1); };
+    show(1);
+  </script>
+</body>
+</html>

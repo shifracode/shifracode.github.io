@@ -237,7 +237,7 @@ html[lang="en"] .hero__title { letter-spacing: -1.5px; line-height: 1.1; }
 
 /* ===== دراسة الحالة (أعمالنا) ===== */
 .badge--done { color: var(--bg); background: var(--lime); border-color: var(--lime); font-weight: 700; }
-.product__link { display: inline-block; margin-top: 12px; color: var(--lime); font-size: 14px; text-decoration: none; }
+.product__link { display: block; width: fit-content; margin-top: 12px; color: var(--lime); font-size: 14px; text-decoration: none; }
 .product__link:hover { text-decoration: underline; }
 .work__head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 16px; }
 .work__head .section__title { margin: 0; }

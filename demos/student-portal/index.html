@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>أكاديمية نور | بوابة الطالب وولي الأمر (عرض تجريبي)</title>
+  <meta name="description" content="عرض تجريبي لبوابة الطالب وولي الأمر من تصميم ShifraCode.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f3f5fb; --card: #fff; --ink: #18203a; --ink-2: #4a5373; --muted: #7b84a3; --line: #e2e6f2;
+      --brand: #4b3fd8; --brand-soft: #ecebfd; --good: #1a7f4b; --good-bg: #e6f4ec; --warn: #9a6400; --warn-bg: #fdf3dc; --crit: #b42318; --crit-bg: #fde8e7;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Cairo", system-ui, sans-serif; line-height: 1.6; }
+    button { font: inherit; cursor: pointer; }
+    .demo-bar { background: #0a0b0a; color: #e9ece6; font-size: 13px; text-align: center; padding: 8px 16px; }
+    .demo-bar a { color: #c6ff3d; }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+
+    header.top { background: var(--card); border-bottom: 1px solid var(--line); }
+    .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 64px; flex-wrap: wrap; padding-block: 8px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 19px; }
+    .brand i { width: 38px; height: 38px; border-radius: 12px; background: var(--brand); color: #fff; display: grid; place-items: center; font-style: normal; }
+    .role { display: flex; gap: 4px; background: var(--bg); border-radius: 12px; padding: 4px; }
+    .role button { border: 0; background: transparent; border-radius: 9px; padding: 6px 14px; color: var(--ink-2); font-size: 14px; }
+    .role button[aria-pressed="true"] { background: var(--brand); color: #fff; }
+
+    .hello { display: flex; align-items: center; gap: 14px; padding: 22px 0 6px; }
+    .avatar { width: 56px; height: 56px; border-radius: 50%; background: var(--brand-soft); display: grid; place-items: center; font-size: 28px; flex-shrink: 0; }
+    .hello h1 { margin: 0; font-size: 22px; }
+    .hello p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    nav.tabs { display: flex; gap: 6px; overflow-x: auto; padding: 14px 0; scrollbar-width: none; }
+    nav.tabs::-webkit-scrollbar { display: none; }
+    .tab { flex: 0 0 auto; border: 1px solid var(--line); background: var(--card); color: var(--ink-2); border-radius: 999px; padding: 6px 16px; font-size: 14px; }
+    .tab[aria-selected="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+    .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .stat { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
+    .stat .lbl { color: var(--ink-2); font-size: 14px; }
+    .stat .val { font-size: 26px; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .stat small { color: var(--muted); }
+    .panel { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; margin-top: 12px; }
+    .panel h2 { font-size: 17px; margin: 0 0 12px; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .next { display: flex; gap: 14px; align-items: center; }
+    .next .time { background: var(--brand-soft); color: var(--brand); border-radius: 12px; padding: 10px 14px; font-weight: 800; text-align: center; min-width: 86px; }
+    .bar { height: 10px; background: var(--line); border-radius: 999px; overflow: hidden; margin-top: 6px; }
+    .bar span { display: block; height: 100%; background: var(--brand); border-radius: 999px; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th { color: var(--muted); font-weight: 600; text-align: right; padding: 8px; border-bottom: 1px solid var(--line); }
+    td { padding: 10px 8px; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+    tr:last-child td { border-bottom: 0; }
+    .pill { display: inline-flex; gap: 4px; align-items: center; font-size: 12px; font-weight: 700; border-radius: 999px; padding: 1px 10px; white-space: nowrap; }
+    .pill.good { color: var(--good); background: var(--good-bg); }
+    .pill.warn { color: var(--warn); background: var(--warn-bg); }
+    .pill.crit { color: var(--crit); background: var(--crit-bg); }
+    .scroll { overflow-x: auto; }
+
+    .week { display: grid; grid-template-columns: repeat(5, minmax(120px, 1fr)); gap: 8px; }
+    .day h3 { font-size: 14px; margin: 0 0 6px; color: var(--ink-2); }
+    .lesson { background: var(--brand-soft); border-radius: 10px; padding: 8px 10px; margin-bottom: 6px; font-size: 13px; }
+    .lesson b { display: block; color: var(--brand); }
+
+    .hw { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .hw:last-child { border-bottom: 0; }
+    .hw input { width: 22px; height: 22px; accent-color: var(--brand); flex-shrink: 0; }
+    .hw .info { flex: 1; }
+    .hw.done .info b { text-decoration: line-through; color: var(--muted); }
+    .hw small { color: var(--muted); display: block; }
+
+    .pay-total { display: flex; gap: 12px; flex-wrap: wrap; }
+    .pay-total .stat { flex: 1; min-width: 160px; }
+    .btn { border: 0; background: var(--brand); color: #fff; font-weight: 700; border-radius: 12px; padding: 10px 18px; }
+    .msg { margin-top: 10px; color: var(--good); font-weight: 700; min-height: 24px; }
+
+    footer { text-align: center; color: var(--muted); font-size: 13px; padding: 32px 16px; }
+    footer a { color: var(--brand); }
+    [hidden] { display: none !important; }
+    @media (max-width: 860px) { .grid4 { grid-template-columns: repeat(2, 1fr); } .row2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="demo-bar">عرض تجريبي من <a href="https://shifracode.github.io/">ShifraCode</a> · الأكاديمية والطلاب وهميون</div>
+
+  <header class="top">
+    <div class="wrap">
+      <div class="brand"><i aria-hidden="true">ن</i> أكاديمية نور</div>
+      <div class="role" role="group" aria-label="نوع الحساب">
+        <button type="button" data-role="student" aria-pressed="true">الطالب</button>
+        <button type="button" data-role="parent" aria-pressed="false">ولي الأمر</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="hello">
+      <div class="avatar" aria-hidden="true" id="avatar">🧑‍🎓</div>
+      <div><h1 id="helloTitle"></h1><p id="helloSub"></p></div>
+    </div>
+
+    <nav class="tabs" role="tablist" id="tabs"></nav>
+
+    <!-- الرئيسية -->
+    <section data-view="home">
+      <div class="grid4" id="stats"></div>
+      <div class="row2">
+        <div class="panel">
+          <h2>الحصة القادمة</h2>
+          <div class="next"><div class="time">اليوم<br>5:00 م</div><div><b>اللغة الإنجليزية · B1</b><br><small style="color:var(--muted)">أ. سارة · قاعة 3 · Unit 5: Travel</small></div></div>
+        </div>
+        <div class="panel">
+          <h2>آخر الإشعارات</h2>
+          <div id="notes"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- الجدول -->
+    <section data-view="schedule" hidden>
+      <div class="panel"><h2>جدول الأسبوع</h2><div class="scroll"><div class="week" id="week"></div></div></div>
+    </section>
+
+    <!-- الدرجات -->
+    <section data-view="grades" hidden>
+      <div class="panel">
+        <h2>الدرجات · الفصل الحالي</h2>
+        <div class="scroll"><table id="grades"></table></div>
+      </div>
+    </section>
+
+    <!-- الواجبات -->
+    <section data-view="homework" hidden>
+      <div class="panel"><h2>الواجبات <small id="hwCount" style="color:var(--muted);font-weight:400"></small></h2><div id="hw"></div></div>
+    </section>
+
+    <!-- المدفوعات (ولي الأمر) -->
+    <section data-view="payments" hidden>
+      <div class="pay-total" id="payTotal"></div>
+      <div class="panel">
+        <h2>سجل المدفوعات</h2>
+        <div class="scroll"><table id="payments"></table></div>
+        <button class="btn" type="button" id="payBtn" style="margin-top:14px">ادفع القسط المستحق</button>
+        <div class="msg" id="payMsg" role="status"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    عرض تجريبي صممته <a href="https://shifracode.github.io/">ShifraCode</a>.
+    <br>هل تريد بوابة مثل هذه لأكاديميتك أو مدرستك؟ <a href="https://shifracode.github.io/#contact">تواصل معنا</a>
+  </footer>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const STUDENT = "يوسف أحمد";
+    const GRADES = [
+      ["Speaking", 18, 20], ["Listening", 17, 20], ["Reading", 14, 20], ["Writing", 12, 20], ["Grammar", 19, 20],
+    ];
+    const HW = [
+      { id: 1, t: "Workbook ص 42-43", d: "اليوم", done: false },
+      { id: 2, t: "كتابة إيميل عن رحلة (120 كلمة)", d: "غدًا", done: false },
+      { id: 3, t: "Vocabulary Quiz – Unit 5", d: "الخميس", done: true },
+      { id: 4, t: "استماع: Podcast 3 + الأسئلة", d: "السبت", done: false },
+    ];
+    const WEEK = {
+      "السبت": [["5:00 م", "English B1"], ["7:00 م", "Conversation Club"]],
+      "الأحد": [["5:00 م", "Writing Workshop"]],
+      "الاثنين": [["5:00 م", "English B1"]],
+      "الثلاثاء": [["6:00 م", "Listening Lab"]],
+      "الأربعاء": [["5:00 م", "English B1"], ["7:00 م", "اختبار قصير"]],
+    };
+    const PAYMENTS = [
+      ["سبتمبر", 1200, "paid"], ["أكتوبر", 1200, "paid"], ["نوفمبر", 1200, "due"], ["ديسمبر", 1200, "upcoming"],
+    ];
+    let role = "student", view = "home";
+
+    const TABS = {
+      student: [["home", "الرئيسية"], ["schedule", "الجدول"], ["grades", "الدرجات"], ["homework", "الواجبات"]],
+      parent: [["home", "الرئيسية"], ["grades", "الدرجات"], ["payments", "المدفوعات"], ["schedule", "الجدول"]],
+    };
+
+    function render() {
+      const parent = role === "parent";
+      $("avatar").textContent = parent ? "👨‍👩‍👦" : "🧑‍🎓";
+      $("helloTitle").textContent = parent ? "مرحبًا، والد " + STUDENT : "مرحبًا، " + STUDENT;
+      $("helloSub").textContent = parent ? "متابعة ابنك يوسف · مستوى B1 · مجموعة المساء" : "مستوى B1 · مجموعة المساء · أ. سارة";
+      $("tabs").innerHTML = TABS[role].map(([k, n]) => `<button class="tab" role="tab" type="button" data-tab="${k}" aria-selected="${k === view}">${n}</button>`).join("");
+      document.querySelectorAll("[data-view]").forEach((s) => s.hidden = s.dataset.view !== view);
+
+      const total = GRADES.reduce((s, g) => s + g[1], 0), max = GRADES.reduce((s, g) => s + g[2], 0);
+      const pending = HW.filter((h) => !h.done).length;
+      const stats = parent
+        ? [["نسبة الحضور", "92%", "22 من 24 حصة"], ["المعدل", Math.round(total / max * 100) + "%", "تقدير جيد جدًا"], ["واجبات متأخرة", "0", "ممتاز"], ["المستحق", "1,200 د.إ", "قسط نوفمبر"]]
+        : [["نسبة الحضور", "92%", "22 من 24 حصة"], ["المعدل", Math.round(total / max * 100) + "%", "تقدير جيد جدًا"], ["واجبات مفتوحة", String(pending), "أقربها اليوم"], ["المستوى القادم", "B1+", "بعد 6 أسابيع"]];
+      $("stats").innerHTML = stats.map(([l, v, s]) => `<div class="stat"><div class="lbl">${l}</div><div class="val">${v}</div><small>${s}</small></div>`).join("");
+      $("notes").innerHTML = (parent
+        ? [["good", "✓", "حضر يوسف حصة الأربعاء"], ["warn", "⚠", "قسط نوفمبر مستحق خلال 3 أيام"], ["good", "✓", "درجة اختبار Unit 4: 18/20"]]
+        : [["warn", "⚠", "واجب Workbook مطلوب اليوم"], ["good", "✓", "تم رصد درجة اختبار Unit 4"], ["good", "✓", "حصة إضافية للمحادثة يوم السبت"]]
+      ).map(([c, i, t]) => `<p style="margin:0 0 8px"><span class="pill ${c}"><span aria-hidden="true">${i}</span></span> ${t}</p>`).join("");
+
+      $("week").innerHTML = Object.entries(WEEK).map(([d, ls]) => `<div class="day"><h3>${d}</h3>${ls.map(([t, n]) => `<div class="lesson"><b>${t}</b>${n}</div>`).join("")}</div>`).join("");
+      $("grades").innerHTML = "<tr><th>المهارة</th><th>الدرجة</th><th style=\"width:40%\">المستوى</th></tr>" + GRADES.map(([n, g, m]) => {
+        const p = g / m * 100;
+        return `<tr><td dir="ltr" style="text-align:right">${n}</td><td>${g} / ${m}</td><td><div class="bar" role="img" aria-label="${Math.round(p)}%"><span style="width:${p}%"></span></div></td></tr>`;
+      }).join("") + `<tr><td><b>المجموع</b></td><td><b>${total} / ${max}</b></td><td><span class="pill good">✓ ناجح</span></td></tr>`;
+
+      $("hwCount").textContent = `(${pending} مفتوحة)`;
+      $("hw").innerHTML = HW.map((h) => `<label class="hw ${h.done ? "done" : ""}"><input type="checkbox" data-hw="${h.id}" ${h.done ? "checked" : ""}><span class="info"><b>${h.t}</b><small>التسليم: ${h.d}</small></span>${h.done ? '<span class="pill good">تم</span>' : (h.d === "اليوم" ? '<span class="pill warn">اليوم</span>' : "")}</label>`).join("");
+
+      const paid = PAYMENTS.filter((p) => p[2] === "paid").reduce((s, p) => s + p[1], 0);
+      const due = PAYMENTS.filter((p) => p[2] === "due").reduce((s, p) => s + p[1], 0);
+      $("payTotal").innerHTML = `<div class="stat"><div class="lbl">المدفوع</div><div class="val">${paid.toLocaleString("en")} د.إ</div></div><div class="stat"><div class="lbl">المستحق الآن</div><div class="val">${due.toLocaleString("en")} د.إ</div></div>`;
+      const st = { paid: '<span class="pill good">✓ مدفوع</span>', due: '<span class="pill crit">مستحق</span>', upcoming: '<span class="pill warn">قادم</span>' };
+      $("payments").innerHTML = "<tr><th>الشهر</th><th>المبلغ</th><th>الحالة</th></tr>" + PAYMENTS.map(([m, a, s]) => `<tr><td>${m}</td><td>${a.toLocaleString("en")} د.إ</td><td>${st[s]}</td></tr>`).join("");
+      $("payBtn").hidden = !due;
+    }
+
+    document.querySelector(".role").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-role]"); if (!b) return;
+      role = b.dataset.role; view = "home"; $("payMsg").textContent = "";
+      document.querySelectorAll("[data-role]").forEach((x) => x.setAttribute("aria-pressed", x === b));
+      render();
+    });
+    $("tabs").addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (b) { view = b.dataset.tab; render(); } });
+    $("hw").addEventListener("change", (e) => { const h = HW.find((x) => x.id == e.target.dataset.hw); if (h) { h.done = e.target.checked; render(); } });
+    $("payBtn").addEventListener("click", () => {
+      PAYMENTS.forEach((p) => { if (p[2] === "due") p[2] = "paid"; });
+      render(); $("payMsg").textContent = "✓ تم الدفع (عرض تجريبي، لم يتم خصم أي مبلغ). الإيصال وصل على الإيميل.";
+    });
+    render();
+  </script>
+</body>
+</html>

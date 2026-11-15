@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>دار لمسة | عبايات وعطور (عرض تجريبي)</title>
+  <meta name="description" content="عرض تجريبي لمتجر إلكتروني من تصميم ShifraCode.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #faf7f4; --card: #fff; --ink: #1d1714; --muted: #7d726b; --line: #ece4dc; --brand: #1d1714; --gold: #b08a4a; --soft: #f3ece4; --err: #b42318; --ok: #2f7d4f; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Cairo", system-ui, sans-serif; line-height: 1.6; }
+    button { font: inherit; cursor: pointer; }
+    .demo-bar { background: #0a0b0a; color: #e9ece6; font-size: 13px; text-align: center; padding: 8px 16px; }
+    .demo-bar a { color: #c6ff3d; }
+    .wrap { max-width: 1140px; margin: 0 auto; padding: 0 16px; }
+
+    header.top { position: sticky; top: 0; z-index: 20; background: rgba(250, 247, 244, .95); border-bottom: 1px solid var(--line); backdrop-filter: blur(8px); }
+    .top .wrap { display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: 12px; }
+    .logo { font-weight: 800; font-size: 22px; letter-spacing: .5px; }
+    .logo span { color: var(--gold); }
+    .cart-btn { position: relative; border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 6px 16px; }
+    .cart-btn b { position: absolute; top: -6px; left: -6px; background: var(--gold); color: #fff; border-radius: 999px; min-width: 22px; height: 22px; font-size: 12px; display: grid; place-items: center; }
+
+    .hero { margin: 20px 0; border-radius: 22px; background: linear-gradient(120deg, #2a211c, #4a3a2c); color: #f6efe6; padding: 36px 28px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .hero h1 { margin: 0 0 6px; font-size: clamp(26px, 4vw, 38px); }
+    .hero p { margin: 0; color: #dccbb6; }
+    .hero .tag { background: var(--gold); color: #fff; border-radius: 999px; padding: 6px 16px; font-weight: 700; }
+
+    .filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
+    .filters::-webkit-scrollbar { display: none; }
+    .chip { flex: 0 0 auto; border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 6px 16px; font-size: 14px; }
+    .chip[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+    .products { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 16px 0 40px; }
+    .p { background: var(--card); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; text-align: start; padding: 0; display: flex; flex-direction: column; }
+    .p:hover { border-color: var(--gold); }
+    .p .img { aspect-ratio: 4 / 5; display: grid; place-items: center; font-size: 72px; }
+    .p .body { padding: 12px 14px 14px; }
+    .p h3 { margin: 0; font-size: 15px; }
+    .p .price { font-weight: 800; margin-top: 2px; }
+    .p .old { color: var(--muted); text-decoration: line-through; font-weight: 400; font-size: 13px; margin-inline-start: 6px; }
+    .p .badge { position: absolute; margin: 10px; background: #b42318; color: #fff; font-size: 12px; border-radius: 999px; padding: 0 10px; }
+
+    dialog { border: 0; padding: 0; border-radius: 22px; width: min(720px, 94vw); max-height: 92vh; }
+    dialog::backdrop { background: rgba(29, 23, 20, .5); }
+    .pd { display: grid; grid-template-columns: 1fr 1fr; }
+    .pd .img { font-size: 120px; display: grid; place-items: center; min-height: 300px; }
+    .pd .info { padding: 22px; }
+    .pd h2 { margin: 0; }
+    .opt-title { font-weight: 700; margin: 14px 0 6px; font-size: 14px; }
+    .opts { display: flex; gap: 8px; flex-wrap: wrap; }
+    .opt { border: 1px solid var(--line); background: var(--card); border-radius: 10px; padding: 6px 14px; min-width: 44px; }
+    .opt[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: #fff; }
+    .swatch { width: 34px; height: 34px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px var(--line); padding: 0; min-width: 0; }
+    .swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--ink); background-clip: padding-box; }
+    .add { width: 100%; margin-top: 18px; border: 0; background: var(--ink); color: #fff; font-weight: 800; border-radius: 14px; padding: 13px; font-size: 16px; }
+    .add:disabled { opacity: .4; cursor: not-allowed; }
+    .hint { color: var(--err); font-size: 13px; min-height: 20px; margin-top: 6px; }
+    .close { position: absolute; top: 10px; left: 10px; border: 0; background: var(--card); border-radius: 50%; width: 36px; height: 36px; font-size: 18px; }
+
+    .drawer { position: fixed; inset: 0 auto 0 0; width: min(420px, 100vw); background: var(--card); z-index: 30; box-shadow: 0 0 40px rgba(0,0,0,.2); transform: translateX(-105%); transition: transform .25s ease; display: flex; flex-direction: column; }
+    .drawer.open { transform: none; }
+    .shade { position: fixed; inset: 0; background: rgba(29, 23, 20, .4); z-index: 25; display: none; }
+    .shade.open { display: block; }
+    .dhead { display: flex; justify-content: space-between; align-items: center; padding: 16px 18px; border-bottom: 1px solid var(--line); }
+    .dhead h2 { margin: 0; font-size: 19px; }
+    .dbody { padding: 12px 18px; overflow-y: auto; flex: 1; }
+    .line { display: grid; grid-template-columns: 56px 1fr auto; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+    .line .thumb { width: 56px; height: 64px; border-radius: 10px; display: grid; place-items: center; font-size: 30px; }
+    .line small { color: var(--muted); display: block; }
+    .qty { display: inline-flex; gap: 6px; align-items: center; margin-top: 4px; }
+    .qty button { width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); }
+    .dfoot { padding: 16px 18px; border-top: 1px solid var(--line); }
+    .sum { display: flex; justify-content: space-between; margin-bottom: 4px; }
+    .sum.total { font-weight: 800; font-size: 18px; margin-top: 6px; }
+    .free { color: var(--ok); font-size: 13px; margin-bottom: 10px; }
+    .field { margin-bottom: 10px; }
+    .field label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+    .field input { width: 100%; border: 1px solid var(--line); border-radius: 10px; padding: 10px; font: inherit; }
+    .field input[aria-invalid="true"] { border-color: var(--err); }
+    .err { color: var(--err); font-size: 12px; min-height: 16px; }
+    .empty { text-align: center; color: var(--muted); padding: 40px 0; }
+    .done { text-align: center; padding: 30px 10px; }
+    .done .ok { width: 70px; height: 70px; border-radius: 50%; background: #e6f4ec; color: var(--ok); display: grid; place-items: center; font-size: 34px; margin: 0 auto 10px; }
+
+    footer { text-align: center; color: var(--muted); font-size: 13px; padding: 32px 16px; border-top: 1px solid var(--line); }
+    footer a { color: var(--gold); }
+    @media (max-width: 900px) { .products { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 620px) { .pd { grid-template-columns: 1fr; } .pd .img { min-height: 180px; font-size: 90px; } }
+    @media (prefers-reduced-motion: reduce) { .drawer { transition: none; } }
+  </style>
+</head>
+<body>
+  <div class="demo-bar">عرض تجريبي من <a href="https://shifracode.github.io/">ShifraCode</a> · المتجر والأسعار وهمية</div>
+
+  <header class="top">
+    <div class="wrap">
+      <div class="logo">دار <span>لمسة</span></div>
+      <button class="cart-btn" type="button" id="openCart" aria-label="السلة">🛍️ السلة <b id="count" hidden>0</b></button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div><h1>تشكيلة الشتاء وصلت</h1><p>عبايات بقصّات عصرية وعطور شرقية · توصيل لكل الإمارات خلال 48 ساعة</p></div>
+      <span class="tag">خصم 20% على العبايات</span>
+    </section>
+
+    <div class="filters" role="group" aria-label="الأقسام" id="filters"></div>
+    <div class="products" id="products"></div>
+  </main>
+
+  <dialog id="pd" aria-labelledby="pdTitle"><div style="position:relative" id="pdBody"></div></dialog>
+
+  <div class="shade" id="shade"></div>
+  <aside class="drawer" id="drawer" aria-label="سلة التسوق" aria-hidden="true">
+    <div class="dhead"><h2>سلة التسوق</h2><button class="close" style="position:static" type="button" id="closeCart" aria-label="إغلاق السلة">✕</button></div>
+    <div class="dbody" id="lines"></div>
+    <div class="dfoot" id="foot"></div>
+  </aside>
+
+  <footer>
+    عرض تجريبي صممته <a href="https://shifracode.github.io/">ShifraCode</a>.
+    <br>هل تريد متجرًا مثل هذا لنشاطك؟ <a href="https://shifracode.github.io/#contact">تواصل معنا</a>
+  </footer>
+
+  <script>
+    // ===== المنتجات (عدّلها بسهولة) =====
+    const CATS = [["all", "الكل"], ["abaya", "عبايات"], ["perfume", "عطور"], ["acc", "إكسسوارات"]];
+    const COLORS = { "أسود": "#1d1714", "بيج": "#d8c3a5", "زيتي": "#55603f", "كحلي": "#1f2a44" };
+    const PRODUCTS = [
+      { id: 1, cat: "abaya", icon: "🧥", bg: "#e9e1d8", name: "عباية كريب بتطريز ذهبي", price: 360, old: 450, sizes: ["52", "54", "56", "58"], colors: ["أسود", "كحلي"] },
+      { id: 2, cat: "abaya", icon: "🥻", bg: "#efe6d9", name: "عباية كتّان بيج", price: 280, old: 350, sizes: ["52", "54", "56"], colors: ["بيج", "زيتي"] },
+      { id: 3, cat: "abaya", icon: "🧥", bg: "#e4e6ea", name: "عباية رسمية بأكمام واسعة", price: 420, sizes: ["54", "56", "58"], colors: ["أسود"] },
+      { id: 4, cat: "perfume", icon: "🧴", bg: "#f1e7d6", name: "عطر عود ملكي 100 مل", price: 240, sizes: ["50 مل", "100 مل"] },
+      { id: 5, cat: "perfume", icon: "🌹", bg: "#f5e4e4", name: "عطر ورد طائفي", price: 195, sizes: ["50 مل", "100 مل"] },
+      { id: 6, cat: "perfume", icon: "🪔", bg: "#ede3d3", name: "بخور معطّر · علبة", price: 85 },
+      { id: 7, cat: "acc", icon: "🧣", bg: "#e8e3ee", name: "شيلة حرير", price: 90, colors: ["أسود", "بيج", "كحلي"] },
+      { id: 8, cat: "acc", icon: "👜", bg: "#eee6dc", name: "حقيبة يد جلد", price: 310, colors: ["أسود", "بيج"] },
+    ];
+    const FREE_SHIP = 300, SHIP = 25;
+    const $ = (id) => document.getElementById(id);
+    const money = (n) => n.toLocaleString("en") + " د.إ";
+    const cart = [];
+    let cat = "all", pick = {};
+
+    $("filters").innerHTML = CATS.map(([k, n]) => `<button class="chip" type="button" data-cat="${k}" aria-pressed="${k === cat}">${n}</button>`).join("");
+    function renderProducts() {
+      $("products").innerHTML = PRODUCTS.filter((p) => cat === "all" || p.cat === cat).map((p) => `
+        <button class="p" type="button" data-p="${p.id}" aria-label="${p.name}">
+          ${p.old ? `<span class="badge">-${Math.round((1 - p.price / p.old) * 100)}%</span>` : ""}
+          <span class="img" style="background:${p.bg}" aria-hidden="true">${p.icon}</span>
+          <span class="body"><h3>${p.name}</h3><div class="price">${money(p.price)}${p.old ? `<span class="old">${money(p.old)}</span>` : ""}</div></span>
+        </button>`).join("");
+    }
+    renderProducts();
+    $("filters").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-cat]"); if (!b) return;
+      cat = b.dataset.cat; document.querySelectorAll("[data-cat]").forEach((x) => x.setAttribute("aria-pressed", x === b)); renderProducts();
+    });
+
+    // ===== صفحة المنتج =====
+    function openProduct(id) {
+      const p = PRODUCTS.find((x) => x.id === id);
+      pick = { id, size: p.sizes ? null : "-", color: p.colors && p.colors.length === 1 ? p.colors[0] : (p.colors ? null : "-") };
+      $("pdBody").innerHTML = `
+        <button class="close" type="button" id="pdClose" aria-label="إغلاق">✕</button>
+        <div class="pd">
+          <div class="img" style="background:${p.bg}" aria-hidden="true">${p.icon}</div>
+          <div class="info">
+            <h2 id="pdTitle">${p.name}</h2>
+            <div class="price" style="font-size:22px;font-weight:800">${money(p.price)}${p.old ? `<span class="old" style="color:var(--muted);text-decoration:line-through;font-size:15px;font-weight:400;margin-inline-start:8px">${money(p.old)}</span>` : ""}</div>
+            ${p.sizes ? `<div class="opt-title">${p.cat === "perfume" ? "الحجم" : "المقاس"}</div><div class="opts" data-group="size">${p.sizes.map((s) => `<button class="opt" type="button" data-v="${s}" aria-pressed="false">${s}</button>`).join("")}</div>` : ""}
+            ${p.colors ? `<div class="opt-title">اللون: <span id="colorName">${pick.color || ""}</span></div><div class="opts" data-group="color">${p.colors.map((c) => `<button class="opt swatch" type="button" data-v="${c}" aria-label="${c}" aria-pressed="${pick.color === c}" style="background:${COLORS[c]}"></button>`).join("")}</div>` : ""}
+            <button class="add" type="button" id="addBtn">أضف إلى السلة</button>
+            <div class="hint" id="hint" role="status"></div>
+          </div>
+        </div>`;
+      $("pd").showModal();
+      $("pdClose").onclick = () => $("pd").close();
+      $("pdBody").querySelectorAll("[data-group]").forEach((g) => g.addEventListener("click", (e) => {
+        const b = e.target.closest("[data-v]"); if (!b) return;
+        pick[g.dataset.group] = b.dataset.v;
+        g.querySelectorAll("[data-v]").forEach((x) => x.setAttribute("aria-pressed", x === b));
+        if (g.dataset.group === "color") $("colorName").textContent = b.dataset.v;
+        $("hint").textContent = "";
+      }));
+      $("addBtn").onclick = () => {
+        if (!pick.size) { $("hint").textContent = "اختر المقاس أولًا."; return; }
+        if (!pick.color) { $("hint").textContent = "اختر اللون أولًا."; return; }
+        const key = [pick.id, pick.size, pick.color].join("|");
+        const line = cart.find((l) => l.key === key);
+        line ? line.q++ : cart.push({ key, id: pick.id, size: pick.size, color: pick.color, q: 1 });
+        $("pd").close(); updateCount(); openCart();
+      };
+    }
+    $("products").addEventListener("click", (e) => { const b = e.target.closest("[data-p]"); if (b) openProduct(Number(b.dataset.p)); });
+    $("pd").addEventListener("click", (e) => { if (e.target === $("pd")) $("pd").close(); });
+
+    // ===== السلة والطلب =====
+    function updateCount() {
+      const n = cart.reduce((s, l) => s + l.q, 0);
+      $("count").textContent = n; $("count").hidden = !n;
+    }
+    function totals() {
+      const sub = cart.reduce((s, l) => s + l.q * PRODUCTS.find((p) => p.id === l.id).price, 0);
+      const ship = sub === 0 || sub >= FREE_SHIP ? 0 : SHIP;
+      return { sub, ship, total: sub + ship };
+    }
+    function renderCart() {
+      if (!cart.length) { $("lines").innerHTML = '<p class="empty">السلة فارغة.</p>'; $("foot").innerHTML = ""; return; }
+      $("lines").innerHTML = cart.map((l, i) => {
+        const p = PRODUCTS.find((x) => x.id === l.id);
+        const opts = [l.size !== "-" ? l.size : "", l.color !== "-" ? l.color : ""].filter(Boolean).join(" · ");
+        return `<div class="line"><span class="thumb" style="background:${p.bg}" aria-hidden="true">${p.icon}</span>
+          <div><b>${p.name}</b><small>${opts}</small><span class="qty"><button type="button" data-dec="${i}" aria-label="أنقص">−</button><span>${l.q}</span><button type="button" data-inc="${i}" aria-label="زد">+</button></span></div>
+          <b>${money(l.q * p.price)}</b></div>`;
+      }).join("");
+      const t = totals();
+      $("foot").innerHTML = `
+        <div class="sum"><span>المجموع</span><span>${money(t.sub)}</span></div>
+        <div class="sum"><span>التوصيل</span><span>${t.ship ? money(t.ship) : "مجاني"}</span></div>
+        ${t.ship ? `<div class="free">أضف ${money(FREE_SHIP - t.sub)} ليصبح التوصيل مجانيًا</div>` : '<div class="free">✓ التوصيل مجاني</div>'}
+        <div class="sum total"><span>الإجمالي</span><span>${money(t.total)}</span></div>
+        <form id="checkout" novalidate style="margin-top:12px">
+          <div class="field"><label for="cName">الاسم</label><input id="cName" autocomplete="name"><div class="err" id="cNameErr"></div></div>
+          <div class="field"><label for="cPhone">رقم الجوال</label><input id="cPhone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" style="text-align:right" placeholder="0501234567"><div class="err" id="cPhoneErr"></div></div>
+          <button class="add" type="submit" style="margin-top:4px">إتمام الطلب · الدفع عند الاستلام</button>
+          <p style="color:var(--muted);font-size:12px;text-align:center;margin:8px 0 0">عرض تجريبي: لا يتم إرسال أو حفظ أي بيانات.</p>
+        </form>`;
+      const rules = { cName: (v) => v.trim().length >= 3 ? "" : "اكتب اسمك.", cPhone: (v) => /^0?5\d{8}$/.test(v.replace(/\s/g, "")) ? "" : "اكتب رقم جوال صحيحًا." };
+      const check = (id) => { const m = rules[id]($(id).value); $(id + "Err").textContent = m; $(id).setAttribute("aria-invalid", m ? "true" : "false"); return !m; };
+      Object.keys(rules).forEach((id) => { $(id).addEventListener("blur", () => check(id)); $(id).addEventListener("input", () => { if ($(id).getAttribute("aria-invalid") === "true") check(id); }); });
+      $("checkout").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const ok = Object.keys(rules).map(check);
+        if (ok.includes(false)) { $(Object.keys(rules)[ok.indexOf(false)]).focus(); return; }
+        const n = $("cName").value.trim().split(" ")[0], tot = money(totals().total);
+        cart.length = 0; updateCount();
+        $("lines").innerHTML = `<div class="done" role="status"><div class="ok" aria-hidden="true">✓</div><h3>شكرًا ${n}، تم استلام طلبك</h3><p>الإجمالي ${tot} · الدفع عند الاستلام.<br>رقم الطلب: <b dir="ltr">LM-${Math.floor(1000 + Math.random() * 9000)}</b></p></div>`;
+        $("foot").innerHTML = "";
+      });
+    }
+    $("lines").addEventListener("click", (e) => {
+      const inc = e.target.closest("[data-inc]"), dec = e.target.closest("[data-dec]");
+      if (inc) cart[inc.dataset.inc].q++;
+      if (dec) { const i = Number(dec.dataset.dec); cart[i].q--; if (!cart[i].q) cart.splice(i, 1); }
+      if (inc || dec) { updateCount(); renderCart(); }
+    });
+    function openCart() { renderCart(); $("drawer").classList.add("open"); $("shade").classList.add("open"); $("drawer").setAttribute("aria-hidden", "false"); $("closeCart").focus(); }
+    function closeCart() { $("drawer").classList.remove("open"); $("shade").classList.remove("open"); $("drawer").setAttribute("aria-hidden", "true"); $("openCart").focus(); }
+    $("openCart").onclick = openCart; $("closeCart").onclick = closeCart; $("shade").onclick = closeCart;
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && $("drawer").classList.contains("open")) closeCart(); });
+  </script>
+</body>
+</html>
