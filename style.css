@@ -273,6 +273,20 @@ html[lang="en"] .hero__title { letter-spacing: -1.5px; line-height: 1.1; }
 .work__featured-sub { margin: 0 0 20px; color: var(--muted); font-size: 15px; }
 .shot--feature a { aspect-ratio: 16 / 11; border-color: rgba(198, 255, 61, .35); }
 @media (max-width: 760px) { .work__featured { padding: 16px; } }
+.demos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+@media (max-width: 760px) { .demos { grid-template-columns: 1fr; } }
+.demos__note { color: var(--muted); font-size: 13px; margin: 8px 0 28px; }
+.demo { margin: 0; }
+.demo__video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border: 1px solid rgba(198, 255, 61, .35);
+  border-radius: var(--radius);
+  background: #000;
+}
+.demo figcaption { color: var(--muted); font-size: 14px; margin-top: 8px; }
 .work__note { color: var(--muted); font-size: 13px; margin: 20px 0 4px; }
 .work__stack { font-size: 14px; margin: 0; }
 .work__stack span:first-child { color: var(--muted); }

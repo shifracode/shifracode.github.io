@@ -97,3 +97,11 @@ if (reduceMotion) {
   window.addEventListener("resize", resize);
   setInterval(drawFrame, 55);
 }
+
+// فيديو العرض: يقف لو المستخدم مشغّل "تقليل الحركة" (يقدر يشغّله بنفسه من الزرار)
+if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  document.querySelectorAll(".demo__video").forEach((video) => {
+    video.removeAttribute("autoplay");
+    video.pause();
+  });
+}
