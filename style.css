@@ -298,6 +298,12 @@ html[lang="en"] .hero__title { letter-spacing: -1.5px; line-height: 1.1; }
 @media (prefers-reduced-motion: reduce) { .shot img { transition: none; } }
 
 /* ===== العيّنات الحية ===== */
+.demos-intro { display: grid; grid-template-columns: 1fr 280px; gap: 32px; align-items: center; margin-bottom: 32px; }
+.demos-intro .section__lead { margin-bottom: 0; }
+.reel { margin: 0; }
+.reel video { width: 100%; height: auto; aspect-ratio: 9 / 16; border-radius: 20px; border: 1px solid rgba(198, 255, 61, .35); background: #000; }
+.reel figcaption { color: var(--muted); font-size: 13px; margin-top: 8px; text-align: center; }
+@media (max-width: 760px) { .demos-intro { grid-template-columns: 1fr; } .reel { max-width: 300px; margin: 0 auto; } }
 .demo-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
 .demo-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; min-width: 0; transition: border-color .2s ease; }
 .demo-card:hover { border-color: rgba(198, 255, 61, .45); }

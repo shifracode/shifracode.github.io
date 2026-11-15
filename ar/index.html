@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=8">
+  <link rel="stylesheet" href="../style.css?v=9">
 </head>
 <body>
 
@@ -166,11 +166,8 @@
             </figure>
           </div>
           <p class="demos__note">عروض قصيرة ببيانات تجريبية.</p>
-          <div class="shots"><figure class="shot shot--feature"><a href="../assets/work/finance.png" target="_blank" rel="noopener"><img src="../assets/work/finance.png" alt="الإيرادات والمصروفات وصافي الربح" loading="lazy" width="1600" height="1400"></a><figcaption>الإيرادات والمصروفات وصافي الربح</figcaption></figure><figure class="shot shot--feature"><a href="../assets/work/team.png" target="_blank" rel="noopener"><img src="../assets/work/team.png" alt="أداء الفريق ورحلة العملاء" loading="lazy" width="1600" height="1400"></a><figcaption>أداء الفريق ورحلة العملاء</figcaption></figure></div>
         </div>
         <ul class="work__feats"><li class="work__feat"><h3>لوحات وإحصائيات لصاحب العمل</h3><p>الإيرادات والمصروفات وصافي الربح لأي فترة، ومصادر الدخل وأوجه الإنفاق، ومكالمات كل موظف مبيعات وتحويلاته ونسبة تحقيق هدفه، ورحلة العملاء كاملة.</p></li><li class="work__feat"><h3>من الاستفسار إلى الاشتراك</h3><p>متابعة العميل من أول استفسار مرورًا باختبار تحديد المستوى حتى التسجيل، مع الأهداف الشهرية والعمولات.</p></li><li class="work__feat"><h3>الاشتراكات والمدفوعات</h3><p>اشتراكات متعددة المستويات وخصومات ودفعات جزئية نقدًا أو بتحويل بنكي أو محفظة أو بطاقة، مع طباعة الإيصالات.</p></li><li class="work__feat"><h3>استرداد بموافقة مسبقة</h3><p>لا يتم أي إلغاء أو استرداد مالي إلا بعد موافقة قائد الفريق.</p></li><li class="work__feat"><h3>الحضور والدرجات</h3><p>تسجيل حضور كل حصة، وتنبيهات عند تجاوز حد الغياب، ودرجات المجموعات في مكان واحد.</p></li><li class="work__feat"><h3>الخزينة اليومية</h3><p>يرى كل موظف المبالغ النقدية والتحويلات والمستردات التي تعامل معها اليوم، مع مطابقة تلقائية.</p></li></ul>
-        <div class="shots"><figure class="shot"><a href="../assets/work/sales.png" target="_blank" rel="noopener"><img src="../assets/work/sales.png" alt="لوحة موظف المبيعات" loading="lazy" width="1600" height="1000"></a><figcaption>لوحة موظف المبيعات</figcaption></figure><figure class="shot"><a href="../assets/work/subscription.png" target="_blank" rel="noopener"><img src="../assets/work/subscription.png" alt="الاشتراك والمدفوعات" loading="lazy" width="1600" height="1000"></a><figcaption>الاشتراك والمدفوعات</figcaption></figure><figure class="shot"><a href="../assets/work/attendance.png" target="_blank" rel="noopener"><img src="../assets/work/attendance.png" alt="متابعة الحضور" loading="lazy" width="1600" height="1000"></a><figcaption>متابعة الحضور</figcaption></figure><figure class="shot"><a href="../assets/work/cashbox.png" target="_blank" rel="noopener"><img src="../assets/work/cashbox.png" alt="الخزينة اليومية" loading="lazy" width="1600" height="1000"></a><figcaption>الخزينة اليومية</figcaption></figure></div>
-        <p class="work__note">الشاشات معروضة ببيانات تجريبية، وأرقام الهواتف مخفية. اضغط على أي شاشة لعرضها بالحجم الكامل.</p>
         <p class="work__stack"><span>التقنيات المستخدمة:</span> <span lang="en" dir="ltr">Django · Django REST Framework · PostgreSQL</span></p>
       </div>
     </section>
@@ -178,9 +175,14 @@
     <!-- ===== Live demos ===== -->
     <section class="section section--alt" id="demos">
       <div class="container">
-        <p class="eyebrow" lang="en">// live demos</p>
-        <h2 class="section__title">جرّب عيّناتنا الحية</h2>
+        <div class="demos-intro">
+          <div class="demos-intro__text">
+          <p class="eyebrow" lang="en">// live demos</p>
+          <h2 class="section__title">جرّب عيّناتنا الحية</h2>
         <p class="section__lead">نماذج حقيقية تعمل الآن، جرّبها بنفسك من هاتفك أو حاسوبك.</p>
+          </div>
+          <figure class="reel"><video src="../assets/demos/video/reel.mp4" poster="../assets/demos/video/reel.jpg" controls playsinline preload="none" width="720" height="1280" aria-label="فيديو العيّنات الحية من ShifraCode"></video><figcaption>شاهد العيّنات الأربعة في 47 ثانية (مع الصوت)</figcaption></figure>
+        </div>
         <div class="demo-cards"><article class="demo-card"><a class="demo-card__shot" href="../demos/qr-menu/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><video src="../assets/demos/video/qr-menu.mp4" poster="../assets/demos/video/qr-menu.jpg" autoplay muted loop playsinline preload="metadata" width="1280" height="720"></video></a><div class="demo-card__body"><span class="demo-card__client">مطعم ريحانة</span><h3>قائمة طعام رقمية (QR)</h3><p>يتصفح الضيف القائمة ويضيف الأطباق ويرسل الطلب عبر واتساب برقم الطاولة.</p><a class="demo-card__link" href="../demos/qr-menu/" target="_blank" rel="noopener">جرّب العرض &larr;</a></div></article><article class="demo-card"><a class="demo-card__shot" href="../demos/clinic/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><video src="../assets/demos/video/clinic.mp4" poster="../assets/demos/video/clinic.jpg" autoplay muted loop playsinline preload="metadata" width="1280" height="720"></video></a><div class="demo-card__body"><span class="demo-card__client">عيادات نبض</span><h3>موقع عيادة وحجز مواعيد</h3><p>يختار المريض الطبيب واليوم والوقت، ويحجز في أقل من دقيقة.</p><a class="demo-card__link" href="../demos/clinic/" target="_blank" rel="noopener">جرّب العرض &larr;</a></div></article><article class="demo-card"><a class="demo-card__shot" href="../demos/dashboard/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><video src="../assets/demos/video/dashboard.mp4" poster="../assets/demos/video/dashboard.jpg" autoplay muted loop playsinline preload="metadata" width="1280" height="720"></video></a><div class="demo-card__body"><span class="demo-card__client">متاجر مدار</span><h3>لوحة تحكم المبيعات</h3><p>المبيعات والطلبات والأرباح وتنبيهات المخزون، حسب الأسبوع أو الشهر أو السنة.</p><a class="demo-card__link" href="../demos/dashboard/" target="_blank" rel="noopener">جرّب العرض &larr;</a></div></article><article class="demo-card"><a class="demo-card__shot" href="../demos/landing/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><video src="../assets/demos/video/landing.mp4" poster="../assets/demos/video/landing.jpg" autoplay muted loop playsinline preload="metadata" width="1280" height="720"></video></a><div class="demo-card__body"><span class="demo-card__client">عسل الوادي</span><h3>صفحة هبوط لحملة إعلانية</h3><p>صفحة واحدة تحوّل زوّار الإعلان إلى طلبات بالدفع عند الاستلام.</p><a class="demo-card__link" href="../demos/landing/" target="_blank" rel="noopener">جرّب العرض &larr;</a></div></article></div>
         <p class="work__note">هذه عروض تجريبية لأنشطة وهمية وببيانات افتراضية.</p>
       </div>
@@ -268,6 +270,6 @@
     </div>
   </footer>
 
-  <script src="../script.js?v=8"></script>
+  <script src="../script.js?v=9"></script>
 </body>
 </html>
