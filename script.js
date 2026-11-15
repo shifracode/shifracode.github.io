@@ -11,8 +11,12 @@ const WHATSAPP_NUMBERS = {
 // الرقم اللي الزراير العادية بتستخدمه (eg أو ae)
 const WHATSAPP_DEFAULT = "ae";
 
-// 2) الرسالة اللي هتظهر للعميل جاهزة لما يدوس على الزرار
-const WHATSAPP_MESSAGE = "أهلًا شفرة كود، عندي فكرة مشروع وعايز أتكلم معاكم.";
+// 2) الرسالة اللي هتظهر للعميل جاهزة لما يدوس على الزرار (حسب لغة الصفحة)
+const WHATSAPP_MESSAGES = {
+  ar: "مرحبًا شفرة كود، لديّ فكرة مشروع وأودّ التحدث معكم.",
+  en: "Hi ShifraCode, I have a project idea and would like to talk.",
+};
+const WHATSAPP_MESSAGE = WHATSAPP_MESSAGES[document.documentElement.lang] || WHATSAPP_MESSAGES.en;
 
 // =========================================
 // زراير الواتساب
