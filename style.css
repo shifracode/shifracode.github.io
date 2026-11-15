@@ -262,6 +262,17 @@ html[lang="en"] .hero__title { letter-spacing: -1.5px; line-height: 1.1; }
 .shot a:hover img { transform: scale(1.03); }
 .shot a:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
 .shot figcaption { color: var(--muted); font-size: 14px; margin-top: 8px; }
+.work__featured {
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 40px;
+}
+.work__featured-title { margin: 0 0 4px; font-size: 20px; }
+.work__featured-sub { margin: 0 0 20px; color: var(--muted); font-size: 15px; }
+.shot--feature a { aspect-ratio: 16 / 11; border-color: rgba(198, 255, 61, .35); }
+@media (max-width: 760px) { .work__featured { padding: 16px; } }
 .work__note { color: var(--muted); font-size: 13px; margin: 20px 0 4px; }
 .work__stack { font-size: 14px; margin: 0; }
 .work__stack span:first-child { color: var(--muted); }
