@@ -46,7 +46,7 @@ const WHATSAPP_DEFAULT = "ae";
 - **إضافة خدمة:** في `index.html` انسخ أي `<article class="card">` كامل لحد `</article>`، وغيّر الكلام اللي جواه
 
 ## مهم بعد أي تعديل في `style.css` أو `script.js`
-غيّر رقم النسخة في الصفحتين (`index.html` و `ar/index.html`)، مثلًا من `style.css?v=7` لـ `style.css?v=8`.
+غيّر رقم النسخة في الصفحتين (`index.html` و `ar/index.html`)، مثلًا من `style.css?v=8` لـ `style.css?v=9`.
 ده بيخلي المتصفح يحمّل النسخة الجديدة بدل النسخة القديمة المحفوظة عنده.
 
 ## إزاي ترفعه أونلاين ببلاش (GitHub Pages)

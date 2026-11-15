@@ -100,7 +100,7 @@ if (reduceMotion) {
 
 // فيديو العرض: يقف لو المستخدم مشغّل "تقليل الحركة" (يقدر يشغّله بنفسه من الزرار)
 if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  document.querySelectorAll(".demo__video").forEach((video) => {
+  document.querySelectorAll("video[autoplay]").forEach((video) => {
     video.removeAttribute("autoplay");
     video.pause();
   });
